@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+#addnews_form{
+	position: relative;
+	 left: 500px;
+	 top:70px; 
+	 
+}
+
+#delnews{
+	position: relative;
+	left: 460px;
+	top:70px; 
+}
+
+#main{
+	position: relative;
+	left: 530px;
+	top:230px; 
+}
+
+.goback{
+	position: relative;
+	 left: 300px;
+	 top:20px;
+}

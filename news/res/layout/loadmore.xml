@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@id/loadmore_layout"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	>
+	<Button
+		android:id="@id/loadmore_btn"
+		android:layout_width="fill_parent"
+		android:layout_height="40.0dip"
+		android:layout_marginTop="0.0dip"
+		android:layout_centerHorizontal="true"
+		android:background="@drawable/newslist_item_selector"
+		android:textSize="18.0dip"
+		android:textColor="@color/loadmore_btn_selector"
+		android:text="加载更多"
+		 />
+
+</RelativeLayout>
