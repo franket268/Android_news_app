@@ -117,8 +117,8 @@ public class CustomTextView extends LinearLayout
 			try
 			{
 				drawable = Drawable.createFromStream(new URL(mUrl).openStream(), "image");
-				newImgWidth = drawable.getIntrinsicWidth() / 3;
-				newImgHeigth = drawable.getIntrinsicHeight() / 3;
+				newImgWidth = drawable.getIntrinsicWidth() ;
+				newImgHeigth = drawable.getIntrinsicHeight() ;
 			} catch (Exception e)
 			{
 				e.printStackTrace();

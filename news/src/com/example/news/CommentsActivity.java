@@ -144,7 +144,7 @@ public class CommentsActivity extends Activity
 		public void run()
 		{
 			SyncHttp syncHttp = new SyncHttp();
-			String url = "http://10.0.2.2:8080/web/postComment";
+			String url = "http://54.186.248.222:8080/web/postComment";
 			List<Parameter> params = new ArrayList<Parameter>();
 			params.add(new Parameter("nid", nid + ""));
 			params.add(new Parameter("region", "郑州市"));
@@ -174,7 +174,7 @@ public class CommentsActivity extends Activity
 	private void getComments(int nid)
 	{
 	//请求URL和字符串
-	String url = "http://10.0.2.2:8080/web/getComments";
+	String url = "http://54.186.248.222:8080/web/getComments";
 	String params ="nid="+nid+"&startnid=0&count=10";
 	SyncHttp syncHttp = new SyncHttp();
 	try

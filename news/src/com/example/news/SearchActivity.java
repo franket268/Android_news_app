@@ -92,7 +92,7 @@ public class SearchActivity extends Activity {
             //清屏，清楚之前搜的的结果
 	     	newsList.clear();
 			//请求URL和字符串
-			String url = "http://10.0.2.2:8080/web/getSearch";
+			String url = "http://54.186.248.222:8080/web/getSearch";
 			String params = "keyword="+key;
 			SyncHttp syncHttp = new SyncHttp();
 			try

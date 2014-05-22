@@ -87,9 +87,9 @@ public class NewsDetailsActivity extends Activity
 		setContentView(R.layout.newsdetails);
 		
 		
-		//加了以后才能时更新UI线程
-		StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
-		StrictMode.setThreadPolicy(policy);
+//		//加了以后才能时更新UI线程
+//		StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//		StrictMode.setThreadPolicy(policy);
   
 		// 查找新闻回复图片Layout
 		mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);
@@ -349,7 +349,7 @@ public class NewsDetailsActivity extends Activity
 		String retStr = "网络连接失败，请稍后再试";
 		SyncHttp syncHttp = new SyncHttp();
 		ArrayList<HashMap<String,Object>> bodyList=new ArrayList<HashMap<String,Object>>();
-		String url = "http://10.0.2.2:8080/web/getNews";
+		String url = "http://54.186.248.222:8080/web/getNews";
 		String params = "nid=" + mNid;
 		try
 		{
@@ -409,7 +409,7 @@ public class NewsDetailsActivity extends Activity
 		public void run()
 		{
 			SyncHttp syncHttp = new SyncHttp();
-			String url = "http://10.0.2.2:8080/web/postComment";
+			String url = "http://54.186.248.222:8080/web/postComment";
 			List<Parameter> params = new ArrayList<Parameter>();
 			params.add(new Parameter("nid", mNid + ""));
 			params.add(new Parameter("region",region));

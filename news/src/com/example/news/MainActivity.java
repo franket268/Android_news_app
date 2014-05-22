@@ -259,7 +259,7 @@ public class MainActivity extends Activity {
 				newsList.clear();
 			}
 			//ÇëÇóURLºÍ×Ö·û´®
-			String url = "http://10.0.2.2:8080/web/getSpecifyCategoryNews";
+			String url = "http://54.186.248.222:8080/web/getSpecifyCategoryNews";
 			String params = "startnid="+startnid+"&count="+NEWSCOUNT+"&cid="+cid;
 			SyncHttp syncHttp = new SyncHttp();
 			try
