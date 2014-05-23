@@ -86,6 +86,8 @@
 					/>	
 		</HorizontalScrollView>		
 	</RelativeLayout>
+
+
 	<ListView 
 		android:id="@+id/newslist" 
 		android:layout_width="fill_parent"

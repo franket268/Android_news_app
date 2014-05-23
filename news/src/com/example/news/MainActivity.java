@@ -1,5 +1,6 @@
 package com.example.news;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,6 +10,7 @@ import org.json.JSONObject;
 
 import com.example.custom.Category;
 import com.example.custom.CustomSimpleAdapter;
+import com.example.custom.ListHeaderView;
 import com.example.service.SyncHttp;
 import com.example.service.UpdateManager;
 import com.example.util.DensityUtil;
@@ -20,8 +22,10 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -34,6 +38,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ProgressBar;
@@ -64,6 +69,9 @@ public class MainActivity extends Activity {
 		private int mCid;
 		private String mCatName;
 		private ArrayList<HashMap<String, Object>> mNewsData;
+		private ListHeaderView headerView;
+		private ImageView imageview;
+		private Drawable drawable;  //保存从网络获取的的第一则新闻的图片
 		private ListView mNewsList;
 		private SimpleAdapter mNewsListAdapter;
 		private LayoutInflater mInflater;
@@ -71,6 +79,7 @@ public class MainActivity extends Activity {
 		private ProgressBar mLoadnewsProgress;
 		private Button mLoadMoreBtn;
 		private Button titlebar_search;//搜索按钮
+	
 		
 		private LoadNewsAsyncTask loadNewsAsyncTask;
 
@@ -79,15 +88,17 @@ public class MainActivity extends Activity {
 		{
 			super.onCreate(savedInstanceState);
 			setContentView(R.layout.activity_main);
-			
 			mInflater = getLayoutInflater();
 			mNewsData = new ArrayList<HashMap<String,Object>>();
+			
 			mNewsList = (ListView)findViewById(R.id.newslist);
 			mTitlebarRefresh = (Button)findViewById(R.id.titlebar_refresh);
 			mLoadnewsProgress = (ProgressBar)findViewById(R.id.loadnews_progress);
 			mTitlebarRefresh.setOnClickListener(loadMoreListener);
 			titlebar_search=(Button)findViewById(R.id.titlebar_search);
 			titlebar_search.setOnClickListener(loadMoreListener);
+			
+			
 			
 			//把px转换成dip
 			mColumnWidthDip = DensityUtil.px2dip(this, COLUMNWIDTHPX);
@@ -186,8 +197,14 @@ public class MainActivity extends Activity {
 											new String[]{"newslist_item_title","newslist_item_digest","newslist_item_source","newslist_item_ptime"}, 
 											new int[]{R.id.newslist_item_title,R.id.newslist_item_digest,R.id.newslist_item_source,R.id.newslist_item_ptime});
 			View loadMoreLayout = mInflater.inflate(R.layout.loadmore, null);
+		//	View firstImage = mInflater.inflate(R.layout.first_image, null);
+		//	imageview=(ImageView) firstImage.findViewById(R.id.firstImage);
+		//	imageview.setImageDrawable(drawable);
+		    headerView=new ListHeaderView(this);
+		//	headView.setImage();
+	    	mNewsList.addHeaderView(headerView);
 			mNewsList.addFooterView(loadMoreLayout);
-			mNewsList.setAdapter(mNewsListAdapter);
+			mNewsList.setAdapter(mNewsListAdapter); 
 			mNewsList.setOnItemClickListener(new OnItemClickListener()
 			{
 				@Override
@@ -250,13 +267,17 @@ public class MainActivity extends Activity {
 		 * @param newsList 保存新闻信息的集合
 		 * @param startnid 分页
 		 * @param firstTimes	是否第一次加载
+		 * @param drawble 保存首页图片
 		 */
-		private int getSpeCateNews(int cid,List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
+		private int getSpeCateNews(int cid,List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes,ListHeaderView headerView)
 		{
+			
+			int flat=0;
 			if (firstTimes)
 			{
 				//如果是第一次，则清空集合里数据
 				newsList.clear();
+				flat=1;
 			}
 			//请求URL和字符串
 			String url = "http://54.186.248.222:8080/web/getSpecifyCategoryNews";
@@ -289,7 +310,15 @@ public class MainActivity extends Activity {
 							hashMap.put("newslist_item_ptime", newsObject.getString("ptime"));
 							hashMap.put("newslist_item_comments", newsObject.getString("commentcount"));
 							newsList.add(hashMap);
+							if(flat==1){
+								System.out.println(newsObject.getString("imgsrc"));
+								drawable = Drawable.createFromStream(new URL(newsObject.getString("imgsrc")).openStream(), "image");
+								headerView.setDrawable(drawable);
+								System.out.println(drawable);
+								flat=0;
+							}
 						}
+						Log.i("a2", newsList.toString());
 						return SUCCESS;
 					}
 					else
@@ -360,7 +389,7 @@ public class MainActivity extends Activity {
 			//Object... params就是说可以有任意多个Object类型的参数，也就是说可以传递0到多个Object类或子类的对象到这个方法。
 			protected Integer doInBackground(Object... params)
 			{
-				return getSpeCateNews((Integer)params[0],mNewsData,(Integer)params[1],(Boolean)params[2]);
+				return getSpeCateNews((Integer)params[0],mNewsData,(Integer)params[1],(Boolean)params[2],headerView);
 			}
 
 			@Override
@@ -381,8 +410,18 @@ public class MainActivity extends Activity {
 					Toast.makeText(MainActivity.this, "新闻加载失败", Toast.LENGTH_LONG).show();
 					break;
 				}
+			//	View firstImage = mInflater.inflate(R.layout.first_image, null);
+		//		imageview=(ImageView) firstImage.findViewById(R.id.firstImage);
+			//	imageview.setImageDrawable(drawable);
+				
+		//		imageview.setImageResource(R.drawable.p11);
+		    //	mNewsList.addHeaderView(firstImage);
+		    	System.out.println("haha"+headerView.getDrawable());
 				//通知ListView进行更新
-				mNewsListAdapter.notifyDataSetChanged();
+				headerView.setImage(headerView.getDrawable());
+				mNewsListAdapter.notifyDataSetChanged(); 
+				
+				
 				//显示刷新按钮
 				mTitlebarRefresh.setVisibility(View.VISIBLE);
 				//隐藏进度条

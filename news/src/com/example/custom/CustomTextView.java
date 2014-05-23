@@ -124,7 +124,7 @@ public class CustomTextView extends LinearLayout
 				e.printStackTrace();
 			}
 			//为了更好的看到效果，让线程休眠2秒
-			SystemClock.sleep(2000);
+			SystemClock.sleep(1000);
 			//使用Handler更新UI
 			Message msg = mHandler.obtainMessage();
 			HashMap<String, Object> hashMap = new HashMap<String, Object>();

@@ -78,7 +78,7 @@ containing a value of this type.
         public static final int icon=0x7f02000a;
         public static final int list_selected_background=0x7f02000b;
         public static final int list_separator_line=0x7f02000c;
-        public static final int main_background=0x7f020031;
+        public static final int main_background=0x7f020032;
         public static final int news_collect_btn=0x7f02000d;
         public static final int news_collect_btn_press=0x7f02000e;
         public static final int news_collect_btn_selector=0x7f02000f;
@@ -102,20 +102,21 @@ containing a value of this type.
         public static final int newsdetails_titlebar_btn_refresh=0x7f020021;
         public static final int newsdetails_titlebar_btn_refresh_selected=0x7f020022;
         public static final int newsdetails_titlebar_comments_background=0x7f020023;
-        public static final int newslist_item_background=0x7f020032;
+        public static final int newslist_item_background=0x7f020033;
         public static final int newslist_item_go_detail=0x7f020024;
         public static final int newslist_item_go_detail_selected=0x7f020025;
         public static final int newslist_item_go_detail_selector=0x7f020026;
         public static final int newslist_item_selector=0x7f020027;
-        public static final int search_btn=0x7f020028;
-        public static final int search_btn_over=0x7f020029;
-        public static final int search_imgbtn_click=0x7f02002a;
-        public static final int titlebar_background=0x7f02002b;
-        public static final int titlebar_btn_refresh_selector=0x7f02002c;
-        public static final int titlebar_button_reflash=0x7f02002d;
-        public static final int titlebar_button_reflash_selected=0x7f02002e;
-        public static final int titlebar_button_refresh=0x7f02002f;
-        public static final int titlebar_button_refresh_selected=0x7f020030;
+        public static final int p11=0x7f020028;
+        public static final int search_btn=0x7f020029;
+        public static final int search_btn_over=0x7f02002a;
+        public static final int search_imgbtn_click=0x7f02002b;
+        public static final int titlebar_background=0x7f02002c;
+        public static final int titlebar_btn_refresh_selector=0x7f02002d;
+        public static final int titlebar_button_reflash=0x7f02002e;
+        public static final int titlebar_button_reflash_selected=0x7f02002f;
+        public static final int titlebar_button_refresh=0x7f020030;
+        public static final int titlebar_button_refresh_selected=0x7f020031;
     }
     public static final class id {
         public static final int category_arrow_right=0x7f070008;
@@ -133,6 +134,8 @@ containing a value of this type.
         public static final int comments_titlebar_news=0x7f07002b;
         public static final int comments_titlebar_progressbar=0x7f07002c;
         public static final int comments_titlebar_title=0x7f07002a;
+        public static final int firstImage=0x7f070039;
+        public static final int firstImage_layout=0x7f070038;
         public static final int loadmore_btn=0x7f070034;
         public static final int loadmore_layout=0x7f070033;
         public static final int loadmore_progress=0x7f070035;
@@ -140,7 +143,7 @@ containing a value of this type.
         public static final int loadnews_progress=0x7f070032;
         public static final int main_layout=0x7f070000;
         public static final int menu_item_update=0x7f07000b;
-        public static final int menu_settings=0x7f070040;
+        public static final int menu_settings=0x7f070042;
         public static final int news_body_details=0x7f07001d;
         public static final int news_body_details_loading=0x7f07001c;
         public static final int news_body_flipper=0x7f070027;
@@ -170,32 +173,33 @@ containing a value of this type.
         public static final int newslist_item_info_layout=0x7f07000d;
         public static final int newslist_item_layout=0x7f07000c;
         public static final int newslist_item_ptime=0x7f070011;
-        public static final int newslist_item_source=0x7f070038;
+        public static final int newslist_item_source=0x7f07003a;
         public static final int newslist_item_title=0x7f07000e;
-        public static final int searchL1=0x7f07003a;
-        public static final int searchL2=0x7f07003b;
-        public static final int search_Keywords=0x7f07003c;
-        public static final int search_button=0x7f07003d;
-        public static final int search_goback=0x7f070039;
-        public static final int searchlist=0x7f07003e;
+        public static final int searchL1=0x7f07003c;
+        public static final int searchL2=0x7f07003d;
+        public static final int search_Keywords=0x7f07003e;
+        public static final int search_button=0x7f07003f;
+        public static final int search_goback=0x7f07003b;
+        public static final int searchlist=0x7f070040;
         public static final int titlebar_layout=0x7f070001;
         public static final int titlebar_refresh=0x7f070003;
         public static final int titlebar_search=0x7f070004;
         public static final int titlebar_title=0x7f070002;
-        public static final int update_progress=0x7f07003f;
+        public static final int update_progress=0x7f070041;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int category_title=0x7f030001;
         public static final int comments=0x7f030002;
         public static final int comments_list_item=0x7f030003;
-        public static final int loadmore=0x7f030004;
-        public static final int news_body=0x7f030005;
-        public static final int newsdetails=0x7f030006;
-        public static final int newslist_item=0x7f030007;
-        public static final int reply_frame=0x7f030008;
-        public static final int search=0x7f030009;
-        public static final int softupdate_progress=0x7f03000a;
+        public static final int first_image=0x7f030004;
+        public static final int loadmore=0x7f030005;
+        public static final int news_body=0x7f030006;
+        public static final int newsdetails=0x7f030007;
+        public static final int newslist_item=0x7f030008;
+        public static final int reply_frame=0x7f030009;
+        public static final int search=0x7f03000a;
+        public static final int softupdate_progress=0x7f03000b;
     }
     public static final class menu {
         public static final int activity_main=0x7f0a0000;
