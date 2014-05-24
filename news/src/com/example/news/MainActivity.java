@@ -20,6 +20,7 @@ import com.example.util.StringUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -48,12 +49,6 @@ import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 
-
-
-
-
-
-
 public class MainActivity extends Activity {
 	
 		private final int COLUMNWIDTHPX = 55;
@@ -79,6 +74,7 @@ public class MainActivity extends Activity {
 		private ProgressBar mLoadnewsProgress;
 		private Button mLoadMoreBtn;
 		private Button titlebar_search;//搜索按钮
+		private Resources resource;
 	
 		
 		private LoadNewsAsyncTask loadNewsAsyncTask;
@@ -283,6 +279,8 @@ public class MainActivity extends Activity {
 			String url = "http://54.186.248.222:8080/web/getSpecifyCategoryNews";
 			String params = "startnid="+startnid+"&count="+NEWSCOUNT+"&cid="+cid;
 			SyncHttp syncHttp = new SyncHttp();
+			resource = getBaseContext().getResources();
+			
 			try
 			{
 				//以Get方式请求，并获得返回结果
@@ -290,13 +288,18 @@ public class MainActivity extends Activity {
 				JSONObject jsonObject = new JSONObject(retStr);
 				//获取返回码，0表示成功
 				int retCode = jsonObject.getInt("ret");
+				Log.i("t1","0");
+				drawable = resource.getDrawable(R.drawable.no_pic);
+				headerView.setDrawable(drawable);
 				if (0==retCode)
-				{
+				{  
+					Log.i("t1","1");
 					JSONObject dataObject = jsonObject.getJSONObject("data");
 					//获取返回数目
 					int totalnum = dataObject.getInt("totalnum");
 					if (totalnum>0)
 					{
+						Log.i("t1","2");
 						//获取返回新闻集合
 						JSONArray newslist = dataObject.getJSONArray("newslist");
 						for(int i=0;i<newslist.length();i++)
@@ -311,18 +314,31 @@ public class MainActivity extends Activity {
 							hashMap.put("newslist_item_comments", newsObject.getString("commentcount"));
 							newsList.add(hashMap);
 							if(flat==1){
-								System.out.println(newsObject.getString("imgsrc"));
-								drawable = Drawable.createFromStream(new URL(newsObject.getString("imgsrc")).openStream(), "image");
+								String imgsrc=newsObject.getString("imgsrc");
+								Log.i("t1",imgsrc);
+								if(!imgsrc.equals("null")){
+									Log.i("t1","3");
+									drawable = Drawable.createFromStream(new URL(imgsrc).openStream(), "image");
+									headerView.setDrawable(drawable);
+								}
+								else{
+									Log.i("t1","4");
+//									String img_url="http://54.186.248.222:8080/web/img/noPic.jpg";
+//									drawable = Drawable.createFromStream(new URL(img_url).openStream(), "image");
+									
+								}
 								headerView.setDrawable(drawable);
-								System.out.println(drawable);
 								flat=0;
 							}
+							
 						}
-						Log.i("a2", newsList.toString());
+						
 						return SUCCESS;
 					}
 					else
 					{
+						Log.i("t1","5");
+		//				drawable = resource.getDrawable(R.drawable.no_pic);
 						if (firstTimes)
 						{
 							return NONEWS;
@@ -335,13 +351,16 @@ public class MainActivity extends Activity {
 				}
 				else
 				{
+					Log.i("t1","6");
+		//			drawable = resource.getDrawable(R.drawable.no_pic);
 					return LOADERROR;
 				}
 			} catch (Exception e)
 			{
 				e.printStackTrace();
-				return LOADERROR;
+				return NOMORENEWS;
 			}
+		
 		}
 		
 		private OnClickListener loadMoreListener = new OnClickListener()
@@ -410,16 +429,11 @@ public class MainActivity extends Activity {
 					Toast.makeText(MainActivity.this, "新闻加载失败", Toast.LENGTH_LONG).show();
 					break;
 				}
-			//	View firstImage = mInflater.inflate(R.layout.first_image, null);
-		//		imageview=(ImageView) firstImage.findViewById(R.id.firstImage);
-			//	imageview.setImageDrawable(drawable);
-				
-		//		imageview.setImageResource(R.drawable.p11);
-		    //	mNewsList.addHeaderView(firstImage);
-		    	System.out.println("haha"+headerView.getDrawable());
+
 				//通知ListView进行更新
-				headerView.setImage(headerView.getDrawable());
+				
 				mNewsListAdapter.notifyDataSetChanged(); 
+				headerView.setImage(headerView.getDrawable());
 				
 				
 				//显示刷新按钮

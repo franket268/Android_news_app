@@ -78,7 +78,7 @@ containing a value of this type.
         public static final int icon=0x7f02000a;
         public static final int list_selected_background=0x7f02000b;
         public static final int list_separator_line=0x7f02000c;
-        public static final int main_background=0x7f020032;
+        public static final int main_background=0x7f020033;
         public static final int news_collect_btn=0x7f02000d;
         public static final int news_collect_btn_press=0x7f02000e;
         public static final int news_collect_btn_selector=0x7f02000f;
@@ -102,21 +102,22 @@ containing a value of this type.
         public static final int newsdetails_titlebar_btn_refresh=0x7f020021;
         public static final int newsdetails_titlebar_btn_refresh_selected=0x7f020022;
         public static final int newsdetails_titlebar_comments_background=0x7f020023;
-        public static final int newslist_item_background=0x7f020033;
+        public static final int newslist_item_background=0x7f020034;
         public static final int newslist_item_go_detail=0x7f020024;
         public static final int newslist_item_go_detail_selected=0x7f020025;
         public static final int newslist_item_go_detail_selector=0x7f020026;
         public static final int newslist_item_selector=0x7f020027;
-        public static final int p11=0x7f020028;
-        public static final int search_btn=0x7f020029;
-        public static final int search_btn_over=0x7f02002a;
-        public static final int search_imgbtn_click=0x7f02002b;
-        public static final int titlebar_background=0x7f02002c;
-        public static final int titlebar_btn_refresh_selector=0x7f02002d;
-        public static final int titlebar_button_reflash=0x7f02002e;
-        public static final int titlebar_button_reflash_selected=0x7f02002f;
-        public static final int titlebar_button_refresh=0x7f020030;
-        public static final int titlebar_button_refresh_selected=0x7f020031;
+        public static final int no_pic=0x7f020028;
+        public static final int p11=0x7f020029;
+        public static final int search_btn=0x7f02002a;
+        public static final int search_btn_over=0x7f02002b;
+        public static final int search_imgbtn_click=0x7f02002c;
+        public static final int titlebar_background=0x7f02002d;
+        public static final int titlebar_btn_refresh_selector=0x7f02002e;
+        public static final int titlebar_button_reflash=0x7f02002f;
+        public static final int titlebar_button_reflash_selected=0x7f020030;
+        public static final int titlebar_button_refresh=0x7f020031;
+        public static final int titlebar_button_refresh_selected=0x7f020032;
     }
     public static final class id {
         public static final int category_arrow_right=0x7f070008;
