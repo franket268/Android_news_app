@@ -209,7 +209,7 @@ public class MainActivity extends Activity {
 					Intent intent = new Intent(MainActivity.this, NewsDetailsActivity.class);
 					//把需要的信息放到Intent中
 					intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
-					intent.putExtra("position", position);
+					intent.putExtra("position", position-1);
 					intent.putExtra("categoryName", mCatName);
 					startActivity(intent);
 				}
