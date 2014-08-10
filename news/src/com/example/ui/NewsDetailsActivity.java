@@ -1,4 +1,4 @@
-package com.example.news;
+package com.example.ui;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import com.example.custom.CustomTextView;
 import com.example.model.Parameter;
+import com.example.news.R;
 import com.example.service.SyncHttp;
 
 

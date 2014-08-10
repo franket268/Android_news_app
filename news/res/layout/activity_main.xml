@@ -6,60 +6,13 @@
     android:layout_height="fill_parent"
     android:background="@drawable/main_background"
     >
-	<RelativeLayout
-		android:id="@id/titlebar_layout"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/titlebar_background"
-		>
-		<TextView
-			android:id="@id/titlebar_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="8.0dip"
-			android:layout_marginLeft="15.0dip"
-			android:textAppearance="@style/titlebar_title_style"
-			android:text="@string/app_name"/>
-    	<Button
-		    android:id="@id/titlebar_search"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_toRightOf="@id/titlebar_title"
-		    android:layout_marginLeft="160.0dip"
-		    android:layout_marginTop="10.0dip"
-		    android:background="@drawable/newsdetails_titlebar_comments_background"
-		    android:text="搜 索"
-		    android:textColor="@color/white"
-		    android:textSize="14.0sp" />
-		
-		<Button
-			android:id="@id/titlebar_refresh"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/titlebar_btn_refresh_selector"
-			android:layout_marginTop="7.0dip"
-			android:layout_marginRight="14.0dip"
-			android:layout_alignParentRight="true"
-			/>
-		<ProgressBar
-			android:id="@id/loadnews_progress"
-			android:layout_width="25.0dip"
-			android:layout_height="25.0dip"
-			android:clickable="false"
-			android:visibility="gone"
-			android:layout_marginRight="20.0dip"
-			android:layout_marginTop="10.0dip"
-			android:layout_alignParentRight="true"
-			style="?android:attr/progressBarStyleLarge" />
 
-	
-	</RelativeLayout>
 	<RelativeLayout
 		android:id="@id/categorybar_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/categorybar_background"
-		android:layout_marginTop="-18.0dip"
+
 		>
 		<Button
 			android:id="@id/category_arrow_right"
@@ -83,12 +36,19 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="center_vertical"
+				android:orientation="horizontal"
 					/>	
 		</HorizontalScrollView>		
 	</RelativeLayout>
 
+	<android.support.v4.view.ViewPager
+	    android:id="@+id/main_viewPager"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent">"
+	</android.support.v4.view.ViewPager>
+	
 
-	<ListView 
+<!--  	<ListView 
 		android:id="@+id/newslist" 
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content" 
@@ -96,4 +56,5 @@
 		android:cacheColorHint="#00000000" 
 		android:divider="@drawable/list_separator_line"
 		/>
+		-->
 </LinearLayout>

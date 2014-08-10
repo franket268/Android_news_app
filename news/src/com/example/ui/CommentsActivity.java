@@ -1,4 +1,4 @@
-package com.example.news;
+package com.example.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,6 +8,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.example.model.Parameter;
+import com.example.news.R;
 
 import com.example.service.SyncHttp;
 
@@ -33,11 +34,11 @@ import android.widget.Toast;
 public class CommentsActivity extends Activity
 {
 	private List<HashMap<String,Object>> mCommsData;
-	private ImageButton mNewsReplyImgBtn;// ·¢±íÐÂÎÅ»Ø¸´Í¼Æ¬
-	private LinearLayout mNewsReplyImgLayout;// ·¢±íÐÂÎÅ»Ø¸´Í¼Æ¬Layout
-	private RelativeLayout mNewsReplyEditLayout;// ·¢±íÐÂÎÅ»Ø¸´»Ø¸´Layout
-	private TextView mNewsReplyContent;// ÐÂÎÅ»Ø¸´ÄÚÈÝ
-	private Button canclebtn;//·¢±íÈ¡Ïû¼ü
+	private ImageButton mNewsReplyImgBtn;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½Í¼Æ¬
+	private LinearLayout mNewsReplyImgLayout;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½Í¼Æ¬Layout
+	private RelativeLayout mNewsReplyEditLayout;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½ï¿½Ø¸ï¿½Layout
+	private TextView mNewsReplyContent;// ï¿½ï¿½ï¿½Å»Ø¸ï¿½ï¿½ï¿½ï¿½ï¿½
+	private Button canclebtn;//ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½
 	private ImageButton news_share_btn;
 	private int nid;
 	@Override
@@ -50,13 +51,13 @@ public class CommentsActivity extends Activity
 		StrictMode.setThreadPolicy(policy);
 		
 		//
-		// ²éÕÒÐÂÎÅ»Ø¸´Í¼Æ¬Layout
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½Í¼Æ¬Layout
 		mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);
-	    // ²éÕÒÐÂÎÅ»Ø¸´»Ø¸´Layout
+	    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½ï¿½Ø¸ï¿½Layout
 	   mNewsReplyEditLayout = (RelativeLayout) findViewById(R.id.news_reply_edit_layout);
 		
 		Intent intent=getIntent();
-		nid=intent.getIntExtra("nid", 0);//»ñÈ¡²»µ½Ê±Ä¬ÈÏÖµÎª0
+		nid=intent.getIntExtra("nid", 0);//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê±Ä¬ï¿½ï¿½ÖµÎª0
 		mCommsData=new ArrayList<HashMap<String,Object>>();
 
 		getComments(nid);
@@ -68,11 +69,11 @@ public class CommentsActivity extends Activity
 		commentsList.setAdapter(commentsAdapter);
 		
 		
-		//°Ñ·ÖÏí°´Å¥ÆÁ±Î
+		//ï¿½Ñ·ï¿½ï¿½?Å¥ï¿½ï¿½ï¿½ï¿½
 		news_share_btn=(ImageButton)findViewById(R.id.news_share_btn);
 		news_share_btn.setVisibility(View.GONE);
 		
-		//»ñÈ¡ÐÂÎÅÄÚÈÝ
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		mNewsReplyContent = (TextView) findViewById(R.id.news_reply_edittext);
 
 		
@@ -91,10 +92,10 @@ public class CommentsActivity extends Activity
 		mNewsReplyImgBtn.setOnClickListener(commsOnClickListener);
 		
 		
-		// ·¢±í»Ø¸´
+		// ï¿½ï¿½ï¿½ï¿½Ø¸ï¿½
 		Button newsReplyPost = (Button) findViewById(R.id.news_reply_post);
 		newsReplyPost.setOnClickListener(commsOnClickListener);
-		//È¡Ïû·¢·¢±í
+		//È¡ï¿½ï¿½ï¿½ï¿½
 		canclebtn=(Button)findViewById(R.id.news_reply_delete);
 		canclebtn.setOnClickListener(commsOnClickListener);
 		
@@ -108,27 +109,27 @@ public class CommentsActivity extends Activity
 			InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 			switch (v.getId())
 			{
-			// ÐÂÎÅ»Ø¸´Í¼Æ¬
+			// ï¿½ï¿½ï¿½Å»Ø¸ï¿½Í¼Æ¬
 			case R.id.news_reply_img_btn:
 				mNewsReplyImgLayout.setVisibility(View.GONE);
 				mNewsReplyEditLayout.setVisibility(View.VISIBLE);
-				mNewsReplyContent.requestFocus();  //Ê¹ÊäÈë¿ò¾Û½¹
+				mNewsReplyContent.requestFocus();  //Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½Û½ï¿½
 				m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
 				break;
-			// ·¢±íÐÂÎÅ»Ø¸´
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½
 			case R.id.news_reply_post:
 				mNewsReplyEditLayout.post(new PostCommentThread());
 				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
 				mNewsReplyEditLayout.setVisibility(View.GONE);
 				m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 				break;
-		  //È¡Ïû·¢²¼
+		  //È¡ï¿½ï¿½
 			case R.id.news_reply_delete:
-				// ÉèÖÃÐÂÎÅ»Ø¸´LayoutÊÇ·ñ¿É¼û
+				// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å»Ø¸ï¿½Layoutï¿½Ç·ï¿½É¼ï¿½
 				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
 				mNewsReplyEditLayout.setVisibility(View.GONE);
 				InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-				im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//Òþ²ØÊäÈë¼üÅÌ
+				im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 				break;
 			}
 		}
@@ -147,7 +148,7 @@ public class CommentsActivity extends Activity
 			String url = "http://54.186.248.222:8080/web/postComment";
 			List<Parameter> params = new ArrayList<Parameter>();
 			params.add(new Parameter("nid", nid + ""));
-			params.add(new Parameter("region", "Ö£ÖÝÊÐ"));
+			params.add(new Parameter("region", "Ö£ï¿½ï¿½ï¿½ï¿½"));
 			params.add(new Parameter("content", mNewsReplyContent.getText().toString()));
 			try
 			{
@@ -156,7 +157,7 @@ public class CommentsActivity extends Activity
 				int retCode = jsonObject.getInt("ret");
 				if (0 == retCode)
 				{
-					Toast.makeText(CommentsActivity.this, "ÆÀÂÛ³É¹¦", Toast.LENGTH_SHORT).show();
+					Toast.makeText(CommentsActivity.this, "ï¿½ï¿½ï¿½Û³É¹ï¿½", Toast.LENGTH_SHORT).show();
 					mNewsReplyImgLayout.setVisibility(View.VISIBLE);
 					mNewsReplyEditLayout.setVisibility(View.GONE);
 					return;
@@ -166,32 +167,32 @@ public class CommentsActivity extends Activity
 			{
 				e.printStackTrace();
 			}
-			Toast.makeText(CommentsActivity.this,"ÆÀÂÛÊ§°Ü", Toast.LENGTH_SHORT).show();
+			Toast.makeText(CommentsActivity.this,"ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 		}
 	}
 
 	
 	private void getComments(int nid)
 	{
-	//ÇëÇóURLºÍ×Ö·û´®
+	//ï¿½ï¿½ï¿½ï¿½URLï¿½ï¿½ï¿½Ö·ï¿½
 	String url = "http://54.186.248.222:8080/web/getComments";
 	String params ="nid="+nid+"&startnid=0&count=10";
 	SyncHttp syncHttp = new SyncHttp();
 	try
 	{
-		//ÒÔGet·½Ê½ÇëÇó£¬²¢»ñµÃ·µ»Ø½á¹û
+		//ï¿½ï¿½Getï¿½ï¿½Ê½ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ø½ï¿½ï¿½
 		String retStr = syncHttp.httpGet(url, params);
 		JSONObject jsonObject = new JSONObject(retStr);
-		//»ñÈ¡·µ»ØÂë£¬0±íÊ¾³É¹¦
+		//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬0ï¿½ï¿½Ê¾ï¿½É¹ï¿½
 		int retCode = jsonObject.getInt("ret");
 		if (0==retCode)
 		{
 			JSONObject dataObject = jsonObject.getJSONObject("data");
-			//»ñÈ¡·µ»ØÊýÄ¿
+			//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
 			int totalnum = dataObject.getInt("totalnum");
 			if (totalnum>0)
 			{
-				//»ñÈ¡·µ»ØÐÂÎÅ¼¯ºÏ
+				//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½
 				JSONArray newslist = dataObject.getJSONArray("commentslist");
 				for(int i=0;i<newslist.length();i++)
 				{
@@ -206,12 +207,12 @@ public class CommentsActivity extends Activity
 			}
 			else
 			{
-				Toast.makeText(CommentsActivity.this, "ÔÝÎÞ»Ø¸´", Toast.LENGTH_LONG).show();
+				Toast.makeText(CommentsActivity.this, "ï¿½ï¿½ï¿½Þ»Ø¸ï¿½", Toast.LENGTH_LONG).show();
 			}
 		}
 		else
 		{
-			Toast.makeText(CommentsActivity.this, "»ñÈ¡ÆÀÂÛÊ§°Ü", Toast.LENGTH_LONG).show();
+			Toast.makeText(CommentsActivity.this, "ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", Toast.LENGTH_LONG).show();
 		}
 	} catch (Exception e)
 	{

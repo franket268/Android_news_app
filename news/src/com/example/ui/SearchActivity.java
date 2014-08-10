@@ -1,4 +1,4 @@
-package com.example.news;
+package com.example.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 
 
+import com.example.news.R;
 import com.example.service.SyncHttp;
 
 import android.app.Activity;
@@ -32,10 +33,10 @@ public class SearchActivity extends Activity {
 	private SimpleAdapter mNewsListAdapter;
 	private ArrayList<HashMap<String, Object>> mNewsData;
 	private LayoutInflater mInflater;
-	private final int SUCCESS = 0;//¼ÓÔØ³É¹¦
-	private final int NONEWS = 1;//¸ÃÀ¸Ä¿ÏÂÃ»ÓÐÐÂÎÅ
-	private final int NOMORENEWS = 2;//¸ÃÀ¸Ä¿ÏÂÃ»ÓÐ¸ü¶àÐÂÎÅ
-	private final int LOADERROR = 3;//¼ÓÔØÊ§°Ü
+	private final int SUCCESS = 0;//ï¿½ï¿½ï¿½Ø³É¹ï¿½
+	private final int NONEWS = 1;//ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private final int NOMORENEWS = 2;//ï¿½ï¿½ï¿½ï¿½Ä¿ï¿½ï¿½Ã»ï¿½Ð¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	private final int LOADERROR = 3;//ï¿½ï¿½ï¿½ï¿½Ê§ï¿½ï¿½
 	private EditText keywordText;
 	private String keyword=null;
 	private ImageButton search_button;
@@ -69,10 +70,10 @@ public class SearchActivity extends Activity {
          public void onItemClick(AdapterView<?> parent, View view, int position, long id)
          {
           Intent intent = new Intent(SearchActivity.this, NewsDetailsActivity.class);
-          //°ÑÐèÒªµÄÐÅÏ¢·Åµ½IntentÖÐ
-          intent.putExtra("newsData", mNewsData);//¸ø·ÖÀàµÄËùÓÐÐÂÎÅÍ··¢¹ýÈ¥
+          //ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Åµï¿½Intentï¿½ï¿½
+          intent.putExtra("newsData", mNewsData);//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í·ï¿½ï¿½ï¿½ï¿½È¥
           intent.putExtra("position", position);
-          intent.putExtra("categoryName", "ËÑË÷");
+          intent.putExtra("categoryName", "ï¿½ï¿½ï¿½ï¿½");
           startActivity(intent);
          }
         });
@@ -80,39 +81,39 @@ public class SearchActivity extends Activity {
 	}   
         
         /**
-		 * »ñÈ¡ËÑË÷ÐÂÎÅÁÐ±í
+		 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð±ï¿½
 		
-		 * @param newsList ±£´æÐÂÎÅÐÅÏ¢µÄ¼¯ºÏ
-		 * @param startnid ·ÖÒ³
-		 * @param firstTimes	ÊÇ·ñµÚÒ»´Î¼ÓÔØ
+		 * @param newsList ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢ï¿½Ä¼ï¿½ï¿½ï¿½
+		 * @param startnid ï¿½ï¿½Ò³
+		 * @param firstTimes	ï¿½Ç·ï¿½ï¿½Ò»ï¿½Î¼ï¿½ï¿½ï¿½
 		 */
         
 	private int getSearchNews(List<HashMap<String, Object>> newsList,String key)
 		{
-            //ÇåÆÁ£¬Çå³þÖ®Ç°ËÑµÄµÄ½á¹û
+            //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®Ç°ï¿½ÑµÄµÄ½ï¿½ï¿½
 	     	newsList.clear();
-			//ÇëÇóURLºÍ×Ö·û´®
+			//ï¿½ï¿½ï¿½ï¿½URLï¿½ï¿½ï¿½Ö·ï¿½
 			String url = "http://54.186.248.222:8080/web/getSearch";
 			String params = "keyword="+key;
 			SyncHttp syncHttp = new SyncHttp();
 			try
 			{
-				//ÒÔGet·½Ê½ÇëÇó£¬²¢»ñµÃ·µ»Ø½á¹û
+				//ï¿½ï¿½Getï¿½ï¿½Ê½ï¿½ï¿½ï¿½ó£¬²ï¿½ï¿½ï¿½Ã·ï¿½ï¿½Ø½ï¿½ï¿½
 				
 				String retStr = syncHttp.httpGet(url, params);
 				JSONObject jsonObject = new JSONObject(retStr);
-				//»ñÈ¡·µ»ØÂë£¬0±íÊ¾³É¹¦
+				//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ë£¬0ï¿½ï¿½Ê¾ï¿½É¹ï¿½
 				int retCode = jsonObject.getInt("ret");
 				
 				if (0==retCode)
 				{
 					JSONObject dataObject = jsonObject.getJSONObject("data");
-					//»ñÈ¡·µ»ØÊýÄ¿
+					//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¿
 					int totalnum = dataObject.getInt("totalnum");
 					System.out.println(totalnum);
 					if (totalnum>0)
 					{
-						//»ñÈ¡·µ»ØÐÂÎÅ¼¯ºÏ
+						//ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½
 						JSONArray newslist = dataObject.getJSONArray("newslist");
 						for(int i=0;i<newslist.length();i++)
 						{
@@ -183,7 +184,7 @@ public class SearchActivity extends Activity {
 		}
 
 		@Override
-		//Object... params¾ÍÊÇËµ¿ÉÒÔÓÐÈÎÒâ¶à¸öObjectÀàÐÍµÄ²ÎÊý£¬Ò²¾ÍÊÇËµ¿ÉÒÔ´«µÝ0µ½¶à¸öObjectÀà»ò×ÓÀàµÄ¶ÔÏóµ½Õâ¸ö·½·¨¡£
+		//Object... paramsï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Objectï¿½ï¿½ï¿½ÍµÄ²ï¿½ï¿½ï¿½Ò²ï¿½ï¿½ï¿½ï¿½Ëµï¿½ï¿½ï¿½Ô´ï¿½ï¿½ï¿½0ï¿½ï¿½ï¿½ï¿½ï¿½Objectï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		protected Integer doInBackground(Object... params)
 		{
 			return getSearchNews(mNewsData,(String)params[0]);
@@ -191,21 +192,21 @@ public class SearchActivity extends Activity {
 
 		@Override
 		
-		//resultÊÇ·½·¨doInBackground(Object... params)·µ»ØµÄÖµ
+		//resultï¿½Ç·ï¿½ï¿½ï¿½doInBackground(Object... params)ï¿½ï¿½ï¿½Øµï¿½Öµ
 		protected void onPostExecute(Integer result)
 		{
 			switch (result)
 			{
 
 			case NOMORENEWS:
-				Toast.makeText(SearchActivity.this, "Ã»ÓÐËÑµ½Ïà¹ØÐÂÎÅ", Toast.LENGTH_LONG).show();
+				Toast.makeText(SearchActivity.this, "Ã»ï¿½ï¿½ï¿½Ñµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½", Toast.LENGTH_LONG).show();
 				break;
 			case LOADERROR:
-				Toast.makeText(SearchActivity.this, "ÐÂÎÅ¼ÓÔØÊ§°Ü", Toast.LENGTH_LONG).show();
+				Toast.makeText(SearchActivity.this, "ï¿½ï¿½ï¿½Å¼ï¿½ï¿½ï¿½Ê§ï¿½ï¿½", Toast.LENGTH_LONG).show();
 				break;
 			}
 			
-			//ÌáÐÑ¸üÐÂÐÂÎÅ
+			//ï¿½ï¿½ï¿½Ñ¸ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			mNewsListAdapter.notifyDataSetChanged();
 		}
 	}

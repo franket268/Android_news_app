@@ -1,4 +1,4 @@
-package com.example.custom;
+package com.example.adapter;
 
 import java.util.List;
 import java.util.Map;
@@ -20,7 +20,7 @@ public class CustomSimpleAdapter extends SimpleAdapter{
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
     	View view= super.getView(position, convertView, parent);
-    	//¸üÐÂµÚÒ»¸ö±³¾°
+    	//ï¿½ï¿½ï¿½Âµï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     	if(position==0){
     		TextView categoryTitle=(TextView)view;
 			categoryTitle.setTextColor(0XFFFFFFFF);
