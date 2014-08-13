@@ -21,24 +21,22 @@ import com.example.model.Parameter;
 
 
 
-
 public class SyncHttp
 {
 	
 	public String httpGet2(String url) throws Exception
 	{
-		String response = null; //·µ»ØĞÅÏ¢
-		
-		
+		String response = null; //è¿”å›ä¿¡æ¯
+
 		int timeoutConnection = 3000;  
 		int timeoutSocket = 5000;  
 		HttpParams httpParameters = new BasicHttpParams();// Set the timeout in milliseconds until a connection is established.  
 	    HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);// Set the default socket timeout (SO_TIMEOUT) // in milliseconds which is the timeout for waiting for data.  
 	    HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);  
 	    
-		// ¹¹ÔìHttpClientµÄÊµÀı
+		// æ„é€ HttpClientçš„å®ä¾‹
 		HttpClient httpClient = new DefaultHttpClient(httpParameters);  
-		// ´´½¨GET·½·¨µÄÊµÀı
+		// åˆ›å»ºGETæ–¹æ³•çš„å®ä¾‹
 		HttpGet httpGet = new HttpGet(url);
 		try
 		{
@@ -46,12 +44,12 @@ public class SyncHttp
 			int statusCode = httpResponse.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) //SC_OK = 200
 			{
-				// »ñµÃ·µ»Ø½á¹û
+				// è·å¾—è¿”å›ç»“æœ
 				response = EntityUtils.toString(httpResponse.getEntity());
 			}
 			else
 			{
-				response = "·µ»ØÂë£º"+statusCode;
+				response = "è¿”å›ç ï¼š"+statusCode;
 			}
 		} catch (Exception e)
 		{
@@ -63,16 +61,16 @@ public class SyncHttp
 
 	
 	/**
-	 * Í¨¹ıGET·½Ê½·¢ËÍÇëÇó
-	 * @param url URLµØÖ·
-	 * @param params ²ÎÊı
+	 * é€šè¿‡GETæ–¹å¼å‘é€è¯·æ±‚
+	 * @param url URLåœ°å€
+	 * @param params å‚æ•°
 	 * @return 
 	 * @throws Exception
 	 */
 	public String httpGet(String url, String params) throws Exception
 	{
-		String response = null; //·µ»ØĞÅÏ¢
-		//Æ´½ÓÇëÇóURL
+		String response = null; //è¿”å›ä¿¡æ¯
+		//æ‹¼æ¥è¯·æ±‚URL
 		if (null!=params&&!params.equals(""))
 		{
 			url += "?" + params;
@@ -84,9 +82,9 @@ public class SyncHttp
 	    HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);// Set the default socket timeout (SO_TIMEOUT) // in milliseconds which is the timeout for waiting for data.  
 	    HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);  
 	    
-		// ¹¹ÔìHttpClientµÄÊµÀı
+		// æ„é€ HttpClientçš„å®ä¾‹
 		HttpClient httpClient = new DefaultHttpClient(httpParameters);  
-		// ´´½¨GET·½·¨µÄÊµÀı
+		// åˆ›å»ºGETæ–¹æ³•çš„å®ä¾‹
 		HttpGet httpGet = new HttpGet(url);
 		try
 		{
@@ -94,12 +92,12 @@ public class SyncHttp
 			int statusCode = httpResponse.getStatusLine().getStatusCode();
 			if (statusCode == HttpStatus.SC_OK) //SC_OK = 200
 			{
-				// »ñµÃ·µ»Ø½á¹û
+				// è·å¾—è¿”å›ç»“æœ
 				response = EntityUtils.toString(httpResponse.getEntity());
 			}
 			else
 			{
-				response = "·µ»ØÂë£º"+statusCode;
+				response = "è¿”å›ç ï¼š"+statusCode;
 			}
 		} catch (Exception e)
 		{
@@ -109,9 +107,9 @@ public class SyncHttp
 	}
 
 	/**
-	 * Í¨¹ıPOST·½Ê½·¢ËÍÇëÇó
-	 * @param url URLµØÖ·
-	 * @param params ²ÎÊı
+	 * é€šè¿‡POSTæ–¹å¼å‘é€è¯·æ±‚
+	 * @param url URLåœ°å€
+	 * @param params å‚æ•°
 	 * @return
 	 * @throws Exception
 	 */
@@ -123,33 +121,33 @@ public class SyncHttp
 		HttpParams httpParameters = new BasicHttpParams();// Set the timeout in milliseconds until a connection is established.  
 	    HttpConnectionParams.setConnectionTimeout(httpParameters, timeoutConnection);// Set the default socket timeout (SO_TIMEOUT) // in milliseconds which is the timeout for waiting for data.  
 	    HttpConnectionParams.setSoTimeout(httpParameters, timeoutSocket);  
-		// ¹¹ÔìHttpClientµÄÊµÀı
+		// æ„é€ HttpClientçš„å®ä¾‹
 		HttpClient httpClient = new DefaultHttpClient(httpParameters);  
 		HttpPost httpPost = new HttpPost(url);
 		if (params.size()>=0)
 		{
-			//ÉèÖÃhttpPostÇëÇó²ÎÊı
+			//è®¾ç½®httpPostè¯·æ±‚å‚æ•°
 			httpPost.setEntity(new UrlEncodedFormEntity(buildNameValuePair(params),HTTP.UTF_8));
 		}
-		//Ê¹ÓÃexecute·½·¨·¢ËÍHTTP PostÇëÇó£¬²¢·µ»ØHttpResponse¶ÔÏó
+		//ä½¿ç”¨executeæ–¹æ³•å‘é€HTTP Postè¯·æ±‚ï¼Œå¹¶è¿”å›HttpResponseå¯¹è±¡
 		HttpResponse httpResponse = httpClient.execute(httpPost);
 		int statusCode = httpResponse.getStatusLine().getStatusCode();
 		if(statusCode==HttpStatus.SC_OK)
 		{
-			//»ñµÃ·µ»Ø½á¹û
+			//è·å¾—è¿”å›ç»“æœ
 			response = EntityUtils.toString(httpResponse.getEntity());
 		}
 		else
 		{
-			response = "·µ»ØÂë£º"+statusCode;
+			response = "è¿”å›ç ï¼š"+statusCode;
 		}
 		return response;
 	}
 	
 
 	/**
-	 * °ÑParameterÀàĞÍ¼¯ºÏ×ª»»³ÉNameValuePairÀàĞÍ¼¯ºÏ
-	 * @param params ²ÎÊı¼¯ºÏ
+	 * æŠŠParameterç±»å‹é›†åˆè½¬æ¢æˆNameValuePairç±»å‹é›†åˆ
+	 * @param params å‚æ•°é›†åˆ
 	 * @return
 	 */
 	private List<BasicNameValuePair> buildNameValuePair(List<Parameter> params)

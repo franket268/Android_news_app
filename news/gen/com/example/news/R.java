@@ -1095,7 +1095,8 @@ containing a value of this type.
         public static final int main_layout=0x7f050010;
         public static final int main_viewPager=0x7f05006a;
         public static final int menu_item_update=0x7f05001b;
-        public static final int menu_settings=0x7f050076;
+        public static final int menu_settings=0x7f050077;
+        public static final int newsList=0x7f05006e;
         public static final int news_body_details=0x7f05002d;
         public static final int news_body_details_loading=0x7f05002c;
         public static final int news_body_flipper=0x7f050037;
@@ -1124,15 +1125,15 @@ containing a value of this type.
         public static final int newslist_item_info_layout=0x7f05001d;
         public static final int newslist_item_layout=0x7f05001c;
         public static final int newslist_item_ptime=0x7f050021;
-        public static final int newslist_item_source=0x7f05006e;
+        public static final int newslist_item_source=0x7f05006f;
         public static final int newslist_item_title=0x7f05001e;
         public static final int normal=0x7f050001;
-        public static final int searchL1=0x7f050070;
-        public static final int searchL2=0x7f050071;
-        public static final int search_Keywords=0x7f050072;
-        public static final int search_button=0x7f050073;
-        public static final int search_goback=0x7f05006f;
-        public static final int searchlist=0x7f050074;
+        public static final int searchL1=0x7f050071;
+        public static final int searchL2=0x7f050072;
+        public static final int search_Keywords=0x7f050073;
+        public static final int search_button=0x7f050074;
+        public static final int search_goback=0x7f050070;
+        public static final int searchlist=0x7f050075;
         public static final int showCustom=0x7f050008;
         public static final int showHome=0x7f050005;
         public static final int showTitle=0x7f050007;
@@ -1141,7 +1142,7 @@ containing a value of this type.
         public static final int titlebar_refresh=0x7f050013;
         public static final int titlebar_search=0x7f050014;
         public static final int titlebar_title=0x7f050012;
-        public static final int update_progress=0x7f050075;
+        public static final int update_progress=0x7f050076;
         public static final int useLogo=0x7f050004;
         public static final int wrap_content=0x7f050000;
     }
@@ -1180,13 +1181,14 @@ containing a value of this type.
         public static final int loadmore=0x7f03001c;
         public static final int main_action_bar=0x7f03001d;
         public static final int news_body=0x7f03001e;
-        public static final int newsdetails=0x7f03001f;
-        public static final int newslist_item=0x7f030020;
-        public static final int reply_frame=0x7f030021;
-        public static final int search=0x7f030022;
-        public static final int sherlock_spinner_dropdown_item=0x7f030023;
-        public static final int sherlock_spinner_item=0x7f030024;
-        public static final int softupdate_progress=0x7f030025;
+        public static final int news_list_fragment=0x7f03001f;
+        public static final int newsdetails=0x7f030020;
+        public static final int newslist_item=0x7f030021;
+        public static final int reply_frame=0x7f030022;
+        public static final int search=0x7f030023;
+        public static final int sherlock_spinner_dropdown_item=0x7f030024;
+        public static final int sherlock_spinner_item=0x7f030025;
+        public static final int softupdate_progress=0x7f030026;
     }
     public static final class menu {
         public static final int activity_main=0x7f0d0000;

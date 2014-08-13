@@ -121,7 +121,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		});
 		
-		pagerAdapter=new CatePagerAdapter(categoryArray.length);
+		pagerAdapter=new CatePagerAdapter(this,categoryArray.length);
 		
 		
 		
