@@ -32,7 +32,7 @@ public class NewsManager {
 			newsList.clear();
 		}
 		//请求URL和字符串
-		String url = "http://10.0.2.2:8080/web/getSpecifyCategoryNews";
+		String url = "http://localhost:8080/web/getSpecifyCategoryNews";
 		String params = "startnid="+startnid+"&count="+NEWSCOUNT+"&cid="+cid;
 		SyncHttp syncHttp = new SyncHttp();
 		try

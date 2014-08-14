@@ -14,8 +14,10 @@ import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
@@ -34,6 +36,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	private final List<HashMap<String, Category>> categories = new ArrayList<HashMap<String, Category>>();
 	private int mCid;
 	private String mCatName;
+	private Button mTitlebarRefresh;
+	private ProgressBar mLoadnewsProgress;
+	private Button mLoadMoreBtn;
 	
 	
 	@Override
@@ -45,7 +50,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	public void initView(){
 		initActionBar();
 		viewPager=(ViewPager) findViewById(R.id.main_viewPager); 
-		
+		mTitlebarRefresh = (Button)findViewById(R.id.titlebar_refresh);
+		mLoadnewsProgress = (ProgressBar)findViewById(R.id.loadnews_progress);
+	
 		
 		
 		//获取新闻分类
@@ -121,7 +128,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		});
 		
-		pagerAdapter=new CatePagerAdapter(this,categoryArray.length);
+		pagerAdapter=new CatePagerAdapter(this,categoryArray.length,mTitlebarRefresh,mLoadnewsProgress,mLoadMoreBtn);
 		
 		
 		
