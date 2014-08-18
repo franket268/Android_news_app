@@ -6,7 +6,10 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 public class NewsManager {
+	private final String Tag=NewsManager.class.getSimpleName();
 	private final int COLUMNWIDTHPX = 55;
 	private final int FLINGVELOCITYPX = 800; // 滚动距离
 	private final int NEWSCOUNT = 5; //返回新闻数目
@@ -19,12 +22,11 @@ public class NewsManager {
 	
 	/**
 	 * 获取指定类型的新闻列表
-	 * @param cid 类型ID
 	 * @param newsList 保存新闻信息的集合
 	 * @param startnid 分页
 	 * @param firstTimes	是否第一次加载
 	 */
-	public int getSpeCateNews(int cid,List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
+	public int getSpeCateNews(List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
 	{
 		if (firstTimes)
 		{
@@ -32,21 +34,24 @@ public class NewsManager {
 			newsList.clear();
 		}
 		//请求URL和字符串
-		String url = "http://localhost:8080/web/getSpecifyCategoryNews";
-		String params = "startnid="+startnid+"&count="+NEWSCOUNT+"&cid="+cid;
+		String url = "http://54.187.183.108:8080/web/getSpecifyCategoryNews";
+		String params = "startnid="+startnid+"&count="+NEWSCOUNT;
 		SyncHttp syncHttp = new SyncHttp();
 		try
 		{
 			//以Get方式请求，并获得返回结果
 			String retStr = syncHttp.httpGet(url, params);
+			Log.d(Tag,"httpGet response= "+retStr);
 			JSONObject jsonObject = new JSONObject(retStr);
 			//获取返回码，0表示成功
 			int retCode = jsonObject.getInt("ret");
+			Log.d(Tag,"retCode= "+String.valueOf(retCode));
 			if (0==retCode)
 			{
 				JSONObject dataObject = jsonObject.getJSONObject("data");
 				//获取返回数目
 				int totalnum = dataObject.getInt("totalnum");
+				Log.d(Tag,"returnNewsTotalnum= "+String.valueOf(totalnum));
 				if (totalnum>0)
 				{
 					//获取返回新闻集合

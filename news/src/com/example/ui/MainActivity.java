@@ -7,6 +7,7 @@ import java.util.List;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -25,9 +26,9 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.adapter.CatePagerAdapter;
 import com.example.adapter.CustomSimpleAdapter;
 import com.example.custom.Category;
+import com.example.fragment.FocusFragment;
 import com.example.news.R;
 import com.example.util.StringUtil;
-
 
 
 public class MainActivity extends SherlockFragmentActivity {
@@ -38,7 +39,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	private String mCatName;
 	private Button mTitlebarRefresh;
 	private ProgressBar mLoadnewsProgress;
-	private Button mLoadMoreBtn;
+	private Class<?>[] mClazz = {FocusFragment.class};
+	private List<Fragment> fragments=new ArrayList<Fragment>();
 	
 	
 	@Override
@@ -52,6 +54,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		viewPager=(ViewPager) findViewById(R.id.main_viewPager); 
 		mTitlebarRefresh = (Button)findViewById(R.id.titlebar_refresh);
 		mLoadnewsProgress = (ProgressBar)findViewById(R.id.loadnews_progress);
+	
 	
 		
 		
@@ -128,8 +131,19 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		});
 		
-		pagerAdapter=new CatePagerAdapter(this,categoryArray.length,mTitlebarRefresh,mLoadnewsProgress,mLoadMoreBtn);
 		
+		for(int i=0;i<mClazz.length;i++){
+			try {
+				Fragment fragment = (Fragment) mClazz[i].newInstance();
+				fragments.add(fragment);
+			} catch (InstantiationException | IllegalAccessException e) {
+				// TODO Auto-generated catch block
+			}
+            
+		}
+		
+		pagerAdapter=new CatePagerAdapter(getSupportFragmentManager(),fragments);
+		viewPager.setAdapter(pagerAdapter);
 		
 		
 		
