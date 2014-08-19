@@ -63,16 +63,7 @@
          android:singleLine="true"
          android:marqueeRepeatLimit="marquee_forever"/>
     </RelativeLayout>
-    
-    <Button 	
-     android:id="@id/newslist_item_go_detail"
-     android:layout_width="wrap_content"
-     android:layout_height="wrap_content"
-     android:layout_marginRight="2.0dip"
-     android:background="@drawable/newslist_item_go_detail_selector"
-     android:layout_toLeftOf="@id/newslist_item_info_layout"
-     android:layout_alignParentRight="true"
-     android:layout_centerVertical="true"/>
+
  </RelativeLayout>
     
     

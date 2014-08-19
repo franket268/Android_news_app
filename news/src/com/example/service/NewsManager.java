@@ -22,11 +22,12 @@ public class NewsManager {
 	
 	/**
 	 * 获取指定类型的新闻列表
+	 * @param cid 类型ID
 	 * @param newsList 保存新闻信息的集合
 	 * @param startnid 分页
 	 * @param firstTimes	是否第一次加载
 	 */
-	public int getSpeCateNews(List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
+	public int getSpeCateNews(int cid,List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
 	{
 		if (firstTimes)
 		{
@@ -35,7 +36,7 @@ public class NewsManager {
 		}
 		//请求URL和字符串
 		String url = "http://54.187.183.108:8080/web/getSpecifyCategoryNews";
-		String params = "startnid="+startnid+"&count="+NEWSCOUNT;
+		String params = "startnid="+startnid+"&count="+NEWSCOUNT+"&cid="+cid;
 		SyncHttp syncHttp = new SyncHttp();
 		try
 		{
