@@ -2,18 +2,18 @@
  <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="90.0dip"
-    android:id="@+id/newslist_item_layout"
+    android:id="@id/newslist_item_layout"
     android:background="@drawable/news_list_item_selector"
     android:descendantFocusability="blocksDescendants" 
     >
     <RelativeLayout
-    android:id="@+id/newslist_item_info_layout"
+    android:id="@id/newslist_item_info_layout"
     android:layout_width="fill_parent"
     android:layout_height="90.0dip"
     android:layout_marginRight="20.0dip">
     
         <TextView 
-         android:id="@+id/newslist_item_title"
+         android:id="@id/newslist_item_title"
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_marginLeft="14.0dip"
@@ -28,7 +28,7 @@
          android:marqueeRepeatLimit="marquee_forever"/>
          
          <TextView 
-         android:id="@+id/newslist_item_digest"
+         android:id="@id/newslist_item_digest"
          android:layout_width="fill_parent"
          android:layout_height="wrap_content"
          android:layout_below="@id/newslist_item_title"

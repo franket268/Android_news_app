@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/news_reply_layout"
+	android:id="@id/news_reply_layout"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
 	android:gravity="center"
@@ -10,7 +10,7 @@
 	android:visibility="visible"
 	>
 	<RelativeLayout
-		android:id="@+id/news_reply_edit_layout"
+		android:id="@id/news_reply_edit_layout"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:gravity="center"
@@ -21,7 +21,7 @@
 		android:layout_marginTop="10.0dip"
 		android:layout_marginBottom="5.0dip">
 		<EditText
-			android:id="@+id/news_reply_edittext"
+			android:id="@id/news_reply_edittext"
 			android:layout_width="230.0dip"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="5.0dip"
@@ -35,7 +35,7 @@
 			android:src="@drawable/news_reply_layout_divider" />
 		
 		<Button
-			android:id="@+id/news_reply_delete"
+			android:id="@id/news_reply_delete"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:background="@drawable/delete"
@@ -45,7 +45,7 @@
 			 />
 	
 		<Button
-			android:id="@+id/news_reply_post"
+			android:id="@id/news_reply_post"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:background="@drawable/news_reply_post_btn_selector"
@@ -55,7 +55,7 @@
 			 />
 	</RelativeLayout>
 	<LinearLayout
-		android:id="@+id/news_reply_img_layout"
+		android:id="@id/news_reply_img_layout"
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:gravity="center"
@@ -64,7 +64,7 @@
 		android:orientation="horizontal"
 		android:layout_marginTop="3.0dip">
 		<ImageButton
-			android:id="@+id/news_reply_img_btn"
+			android:id="@id/news_reply_img_btn"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:background="#00000000"
@@ -80,7 +80,7 @@
 		
 		 
 		<ImageButton
-			android:id="@+id/news_share_btn"
+			android:id="@id/news_share_btn"
 			android:background="#00000000"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
@@ -96,7 +96,7 @@
 			android:src="@drawable/news_reply_layout_divider" />
 		<!-- 
 		<ImageButton
-			android:id="@+id/news_collect_btn"
+			android:id="@id/news_collect_btn"
 			android:background="#00000000"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
