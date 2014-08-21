@@ -9,15 +9,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
 
-import com.example.news.R;
-
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.AlertDialog.Builder;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.net.Uri;
 import android.os.Environment;
@@ -28,25 +26,27 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.news.R;
+
 
 
 public class UpdateManager
 {
-	/* ÏÂÔØÖÐ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private static final int DOWNLOAD = 1;
-	/* ÏÂÔØ½áÊø */
+	/* ï¿½ï¿½ï¿½Ø½ï¿½ï¿½ï¿½ */
 	private static final int DOWNLOAD_FINISH = 2;
-	/* ±£´æ½âÎöµÄXMLÐÅÏ¢ */
+	/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½XMLï¿½ï¿½Ï¢ */
 	HashMap<String, String> mHashMap;
-	/* ÏÂÔØ±£´æÂ·¾¶ */
+	/* ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½Â·ï¿½ï¿½ */
 	private String mSavePath;
-	/* ¼ÇÂ¼½ø¶ÈÌõÊýÁ¿ */
+	/* ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private int progress;
-	/* ÊÇ·ñÈ¡Ïû¸üÐÂ */
+	/* ï¿½Ç·ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	private boolean cancelUpdate = false;
 
 	private Context mContext;
-	/* ¸üÐÂ½ø¶ÈÌõ */
+	/* ï¿½ï¿½ï¿½Â½ï¿½ï¿½ï¿½ï¿½ */
 	private ProgressBar mProgress;
 	private Dialog mDownloadDialog;
 
@@ -56,13 +56,13 @@ public class UpdateManager
 		{
 			switch (msg.what)
 			{
-			// ÕýÔÚÏÂÔØ
+			// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 			case DOWNLOAD:
-				// ÉèÖÃ½ø¶ÈÌõÎ»ÖÃ
+				// ï¿½ï¿½ï¿½Ã½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 				mProgress.setProgress(progress);
 				break;
 			case DOWNLOAD_FINISH:
-				// °²×°ÎÄ¼þ
+				// ï¿½ï¿½×°ï¿½Ä¼ï¿½
 				installApk();
 				break;
 			default:
@@ -77,32 +77,32 @@ public class UpdateManager
 	}
 
 	/**
-	 * ¼ì²âÈí¼þ¸üÐÂ
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	 */
 	public void checkUpdate()
 	{
 		if (isUpdate())
 		{
-			// ÏÔÊ¾ÌáÊ¾¶Ô»°¿ò
+			// ï¿½ï¿½Ê¾ï¿½ï¿½Ê¾ï¿½Ô»ï¿½ï¿½ï¿½
 			showNoticeDialog();
 		} else
 		{
-			Toast.makeText(mContext,"ÒÑ¾­ÊÇ×îÐÂ°æ±¾", Toast.LENGTH_LONG).show();
+			Toast.makeText(mContext,"ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â°æ±¾", Toast.LENGTH_LONG).show();
 		}
 	}
 
 	/**
-	 * ¼ì²éÈí¼þÊÇ·ñÓÐ¸üÐÂ°æ±¾
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½Ð¸ï¿½ï¿½Â°æ±¾
 	 * 
 	 * @return
 	 */
 	private boolean isUpdate()
 	{
-		// »ñÈ¡µ±Ç°Èí¼þ°æ±¾
+		// ï¿½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½æ±¾
 		int versionCode = getVersionCode(mContext);
-		// °Ñversion.xml·Åµ½ÍøÂçÉÏ£¬È»ºó»ñÈ¡ÎÄ¼þÐÅÏ¢
+		// ï¿½ï¿½version.xmlï¿½Åµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï£ï¿½È»ï¿½ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½Ï¢
 		InputStream inStream = ParseXmlService.class.getClassLoader().getResourceAsStream("version.xml");
-		// ½âÎöXMLÎÄ¼þ¡£ ÓÉÓÚXMLÎÄ¼þ±È½ÏÐ¡£¬Òò´ËÊ¹ÓÃDOM·½Ê½½øÐÐ½âÎö
+		// ï¿½ï¿½ï¿½ï¿½XMLï¿½Ä¼ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½XMLï¿½Ä¼ï¿½ï¿½È½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½ï¿½Ê¹ï¿½ï¿½DOMï¿½ï¿½Ê½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½
 		ParseXmlService service = new ParseXmlService();
 		try
 		{
@@ -114,7 +114,7 @@ public class UpdateManager
 		if (null != mHashMap)
 		{
 			int serviceCode = Integer.valueOf(mHashMap.get("version"));
-			// °æ±¾ÅÐ¶Ï
+			// ï¿½æ±¾ï¿½Ð¶ï¿½
 			if (serviceCode > versionCode)
 			{
 				return true;
@@ -124,7 +124,7 @@ public class UpdateManager
 	}
 
 	/**
-	 * »ñÈ¡Èí¼þ°æ±¾ºÅ
+	 * ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½æ±¾ï¿½ï¿½
 	 * 
 	 * @param context
 	 * @return
@@ -134,7 +134,7 @@ public class UpdateManager
 		int versionCode = 0;
 		try
 		{
-			// »ñÈ¡Èí¼þ°æ±¾ºÅ£¬¶ÔÓ¦AndroidManifest.xmlÏÂandroid:versionCode
+			// ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½æ±¾ï¿½Å£ï¿½ï¿½ï¿½Ó¦AndroidManifest.xmlï¿½ï¿½android:versionCode
 			versionCode = context.getPackageManager().getPackageInfo("com.szy.news.activity", 0).versionCode;
 		} catch (NameNotFoundException e)
 		{
@@ -144,27 +144,27 @@ public class UpdateManager
 	}
 
 	/**
-	 * ÏÔÊ¾Èí¼þ¸üÐÂ¶Ô»°¿ò
+	 * ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â¶Ô»ï¿½ï¿½ï¿½
 	 */
 	private void showNoticeDialog()
 	{
-		// ¹¹Ôì¶Ô»°¿ò
+		// ï¿½ï¿½ï¿½ï¿½Ô»ï¿½ï¿½ï¿½
 		AlertDialog.Builder builder = new Builder(mContext);
-		builder.setTitle("Èí¼þ¸üÐÂ");
-		builder.setMessage("¼ì²âµ½ÐÂ°æ±¾£¬Á¢¼´¸üÐÂÂð");
-		// ¸üÐÂ
-		builder.setPositiveButton("¸üÐÂ", new OnClickListener()
+		builder.setTitle("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		builder.setMessage("ï¿½ï¿½âµ½ï¿½Â°æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½ï¿½
+		builder.setPositiveButton("ï¿½ï¿½ï¿½ï¿½", new OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
 				dialog.dismiss();
-				// ÏÔÊ¾ÏÂÔØ¶Ô»°¿ò
+				// ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½Ø¶Ô»ï¿½ï¿½ï¿½
 				showDownloadDialog();
 			}
 		});
-		// ÉÔºó¸üÐÂ
-		builder.setNegativeButton("ÉÔºó¸üÐÂ", new OnClickListener()
+		// ï¿½Ôºï¿½ï¿½ï¿½ï¿½
+		builder.setNegativeButton("ï¿½Ôºï¿½ï¿½ï¿½ï¿½", new OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)
@@ -177,46 +177,46 @@ public class UpdateManager
 	}
 
 	/**
-	 * ÏÔÊ¾Èí¼þÏÂÔØ¶Ô»°¿ò
+	 * ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶Ô»ï¿½ï¿½ï¿½
 	 */
 	private void showDownloadDialog()
 	{
-		// ¹¹ÔìÈí¼þÏÂÔØ¶Ô»°¿ò
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶Ô»ï¿½ï¿½ï¿½
 		AlertDialog.Builder builder = new Builder(mContext);
-		builder.setTitle("ÕýÔÚ¸üÐÂ");
-		// ¸øÏÂÔØ¶Ô»°¿òÔö¼Ó½ø¶ÈÌõ
+		builder.setTitle("ï¿½ï¿½ï¿½Ú¸ï¿½ï¿½ï¿½");
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶Ô»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó½ï¿½ï¿½ï¿½ï¿½
 		final LayoutInflater inflater = LayoutInflater.from(mContext);
 		View v = inflater.inflate(R.layout.softupdate_progress, null);
 		mProgress = (ProgressBar) v.findViewById(R.id.update_progress);
 		builder.setView(v);
-		// È¡Ïû¸üÐÂ
-		builder.setNegativeButton("È¡Ïû¸üÐÂ", new OnClickListener()
+		// È¡ï¿½ï¿½ï¿½ï¿½ï¿½
+		builder.setNegativeButton("È¡ï¿½ï¿½ï¿½ï¿½ï¿½", new OnClickListener()
 		{
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
 				dialog.dismiss();
-				// ÉèÖÃÈ¡Ïû×´Ì¬
+				// ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½×´Ì¬
 				cancelUpdate = true;
 			}
 		});
 		mDownloadDialog = builder.create();
 		mDownloadDialog.show();
-		// ÏÖÔÚÎÄ¼þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 		downloadApk();
 	}
 
 	/**
-	 * ÏÂÔØapkÎÄ¼þ
+	 * ï¿½ï¿½ï¿½ï¿½apkï¿½Ä¼ï¿½
 	 */
 	private void downloadApk()
 	{
-		// Æô¶¯ÐÂÏß³ÌÏÂÔØÈí¼þ
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ß³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		new downloadApkThread().start();
 	}
 
 	/**
-	 * ÏÂÔØÎÄ¼þÏß³Ì
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ß³ï¿½
 	 * 
 	 * @author coolszy
 	 *@date 2012-4-26
@@ -229,23 +229,23 @@ public class UpdateManager
 		{
 			try
 			{
-				// ÅÐ¶ÏSD¿¨ÊÇ·ñ´æÔÚ£¬²¢ÇÒÊÇ·ñ¾ßÓÐ¶ÁÐ´È¨ÏÞ
+				// ï¿½Ð¶ï¿½SDï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ð¶ï¿½Ð´È¨ï¿½ï¿½
 				if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED))
 				{
-					// »ñµÃ´æ´¢¿¨µÄÂ·¾¶
+					// ï¿½ï¿½Ã´æ´¢ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½
 					String sdpath = Environment.getExternalStorageDirectory() + "/";
 					mSavePath = sdpath + "download";
 					URL url = new URL(mHashMap.get("url"));
-					// ´´½¨Á¬½Ó
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 					conn.connect();
-					// »ñÈ¡ÎÄ¼þ´óÐ¡
+					// ï¿½ï¿½È¡ï¿½Ä¼ï¿½ï¿½ï¿½Ð¡
 					int length = conn.getContentLength();
-					// ´´½¨ÊäÈëÁ÷
+					// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 					InputStream is = conn.getInputStream();
 
 					File file = new File(mSavePath);
-					// ÅÐ¶ÏÎÄ¼þÄ¿Â¼ÊÇ·ñ´æÔÚ
+					// ï¿½Ð¶ï¿½ï¿½Ä¼ï¿½Ä¿Â¼ï¿½Ç·ï¿½ï¿½ï¿½ï¿½
 					if (!file.exists())
 					{
 						file.mkdir();
@@ -253,26 +253,26 @@ public class UpdateManager
 					File apkFile = new File(mSavePath, mHashMap.get("name"));
 					FileOutputStream fos = new FileOutputStream(apkFile);
 					int count = 0;
-					// »º´æ
+					// ï¿½ï¿½ï¿½ï¿½
 					byte buf[] = new byte[1024];
-					// Ð´Èëµ½ÎÄ¼þÖÐ
+					// Ð´ï¿½ëµ½ï¿½Ä¼ï¿½ï¿½ï¿½
 					do
 					{
 						int numread = is.read(buf);
 						count += numread;
-						// ¼ÆËã½ø¶ÈÌõÎ»ÖÃ
+						// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 						progress = (int) (((float) count / length) * 100);
-						// ¸üÐÂ½ø¶È
+						// ï¿½ï¿½ï¿½Â½ï¿½ï¿½
 						mHandler.sendEmptyMessage(DOWNLOAD);
 						if (numread <= 0)
 						{
-							// ÏÂÔØÍê³É
+							// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 							mHandler.sendEmptyMessage(DOWNLOAD_FINISH);
 							break;
 						}
-						// Ð´ÈëÎÄ¼þ
+						// Ð´ï¿½ï¿½ï¿½Ä¼ï¿½
 						fos.write(buf, 0, numread);
-					} while (!cancelUpdate);// µã»÷È¡Ïû¾ÍÍ£Ö¹ÏÂÔØ.
+					} while (!cancelUpdate);// ï¿½ï¿½ï¿½È¡ï¿½ï¿½ï¿½Í£Ö¹ï¿½ï¿½ï¿½ï¿½.
 					fos.close();
 					is.close();
 				}
@@ -283,13 +283,13 @@ public class UpdateManager
 			{
 				e.printStackTrace();
 			}
-			// È¡ÏûÏÂÔØ¶Ô»°¿òÏÔÊ¾
+			// È¡ï¿½ï¿½ï¿½ï¿½ï¿½Ø¶Ô»ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 			mDownloadDialog.dismiss();
 		}
 	};
 
 	/**
-	 * °²×°APKÎÄ¼þ
+	 * ï¿½ï¿½×°APKï¿½Ä¼ï¿½
 	 */
 	private void installApk()
 	{
@@ -298,7 +298,7 @@ public class UpdateManager
 		{
 			return;
 		}
-		// Í¨¹ýIntent°²×°APKÎÄ¼þ
+		// Í¨ï¿½ï¿½Intentï¿½ï¿½×°APKï¿½Ä¼ï¿½
 		Intent i = new Intent(Intent.ACTION_VIEW);
 		i.setDataAndType(Uri.parse("file://" + apkfile.toString()), "application/vnd.android.package-archive");
 		mContext.startActivity(i);

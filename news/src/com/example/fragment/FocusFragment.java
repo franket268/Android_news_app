@@ -3,24 +3,28 @@ package com.example.fragment;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.news.R;
-import com.example.service.NewsManager;
-
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.webkit.WebView.FindListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
-public class FocusFragment extends Fragment{
+import com.example.news.R;
+import com.example.service.NewsManager;
+import com.example.ui.MainActivity;
+import com.example.ui.MainActivity.ViewHolder;
+import com.example.ui.NewsDetailsActivity;
+
+public class FocusFragment extends Fragment implements OnClickListener{
 	private ListView mFocusList;
 	private NewsManager mNewsManager;
 	private ArrayList<HashMap<String, Object>> mNewsData= new ArrayList<HashMap<String,Object>>();
@@ -28,6 +32,7 @@ public class FocusFragment extends Fragment{
 	private final int CATEGORY_TYPE = 1;
 	private SimpleAdapter mNewsListAdapter;
 	private Button mLoadMoreBtn;
+	private ViewHolder mHolder;
 	
 	private final int NEWSCOUNT = 5; //返回新闻数目
 	private final int SUCCESS = 0;//加载成功
@@ -42,6 +47,7 @@ public class FocusFragment extends Fragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		mHolder=((MainActivity)getActivity()).getViewHolder();
 		mNewsManager=new NewsManager();
 		asyncTask.execute(CATEGORY_TYPE,0,true);
 	}
@@ -77,12 +83,43 @@ public class FocusFragment extends Fragment{
 		mFocusList=(ListView) contentView.findViewById(R.id.newsList);
 		View loadMoreLayout = getActivity().getLayoutInflater().inflate(R.layout.loadmore, null);
 		mLoadMoreBtn=(Button) loadMoreLayout.findViewById(R.id.loadmore_btn);
+		mLoadMoreBtn.setOnClickListener(this);
+		mHolder.titlebarRefresh.setOnClickListener(this);
 		mFocusList.addFooterView(loadMoreLayout);
 		mNewsListAdapter = new SimpleAdapter(getActivity(), mNewsData, R.layout.newslist_item, 
 				new String[]{"newslist_item_title","newslist_item_digest","newslist_item_source","newslist_item_ptime"}, 
 				new int[]{R.id.newslist_item_title,R.id.newslist_item_digest,R.id.newslist_item_source,R.id.newslist_item_ptime});
 		mFocusList.setAdapter(mNewsListAdapter);
+		mFocusList.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+				//把需要的信息放到Intent中
+				intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
+				intent.putExtra("position", position);
+				intent.putExtra("categoryName", mCatName);
+				startActivity(intent);
+				
+			}
+		});
 	}
+	
+	@Override
+	public void onClick(View v) {
+		asyncTask=new LoadNewsAsyncTask();
+		switch (v.getId()){
+		case R.id.loadmore_btn:
+			asyncTask.execute(CATEGORY_TYPE,mNewsData.size(),false);
+			break;
+		case R.id.titlebar_refresh:
+			asyncTask.execute(CATEGORY_TYPE,0,true);
+			break;
+		   
+		}
+	}
+	
 	
 	private class LoadNewsAsyncTask extends AsyncTask<Object, Integer, Integer>
 	{
@@ -90,12 +127,12 @@ public class FocusFragment extends Fragment{
 		@Override
 		protected void onPreExecute()
 		{
-//			//隐藏刷新按钮
-//			mTitlebarRefresh.setVisibility(View.GONE);
-//			//显示进度条
-//			mLoadnewsProgress.setVisibility(View.VISIBLE); 
-//			//正在加载时显示信息
-//			mLoadMoreBtn.setText("正在加载，请稍后···");
+			//隐藏刷新按钮
+			mHolder.titlebarRefresh.setVisibility(View.GONE);
+			//显示进度条
+			mHolder.loadnewsProgress.setVisibility(View.VISIBLE); 
+			//正在加载时显示信息
+			mLoadMoreBtn.setText("正在加载，请稍后···");
 		}
 
 		@Override
@@ -125,13 +162,15 @@ public class FocusFragment extends Fragment{
 			}
 			//通知ListView进行更新
 			mNewsListAdapter.notifyDataSetChanged();
-//			//显示刷新按钮
-//			mTitlebarRefresh.setVisibility(View.VISIBLE);
-//			//隐藏进度条
-//			mLoadnewsProgress.setVisibility(View.GONE); 
-//			//设置LoadMore Button 显示文本
-//			mLoadMoreBtn.setText("加载更多");
+			//显示刷新按钮
+			mHolder.titlebarRefresh.setVisibility(View.VISIBLE);
+			//隐藏进度条
+			mHolder.loadnewsProgress.setVisibility(View.GONE); 
+			//设置LoadMore Button 显示文本
+			mLoadMoreBtn.setText("加载更多");
 		}
 	}
+
+
 	
 }

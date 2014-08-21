@@ -7,20 +7,13 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.example.model.Parameter;
-import com.example.news.R;
-
-import com.example.service.SyncHttp;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -30,6 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.model.Parameter;
+import com.example.news.R;
+import com.example.service.SyncHttp;
 
 public class CommentsActivity extends Activity
 {

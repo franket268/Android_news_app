@@ -4,11 +4,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.example.news.R;
-
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -17,9 +14,11 @@ import android.text.Html;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.ImageView.ScaleType;
+
+import com.example.news.R;
 
 
 

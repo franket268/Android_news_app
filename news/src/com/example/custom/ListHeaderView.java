@@ -1,13 +1,13 @@
 package com.example.custom;
 
-import com.example.news.R;
-
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.news.R;
 
 public class ListHeaderView extends LinearLayout {
 	private Context context;

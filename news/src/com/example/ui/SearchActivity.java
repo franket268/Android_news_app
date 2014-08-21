@@ -7,11 +7,6 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-
-
-import com.example.news.R;
-import com.example.service.SyncHttp;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -20,13 +15,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
+
+import com.example.news.R;
+import com.example.service.SyncHttp;
 
 public class SearchActivity extends Activity {
 	private ListView mNewsList;

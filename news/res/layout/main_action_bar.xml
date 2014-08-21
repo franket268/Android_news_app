@@ -6,7 +6,7 @@
     >
 
 		<ProgressBar
-			android:id="@id/loadnews_progress"
+			android:id="@+id/loadnews_progress"
 			android:layout_width="25.0dip"
 			android:layout_height="25.0dip"
 			android:clickable="false"
@@ -17,7 +17,7 @@
 			style="?android:attr/progressBarStyleLarge" />
 
 		<Button
-		    android:id="@id/titlebar_refresh"
+		    android:id="@+id/titlebar_refresh"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentRight="true"
@@ -25,7 +25,7 @@
 		    android:background="@drawable/titlebar_btn_refresh_selector" />
 
 		<TextView
-		    android:id="@id/titlebar_title"
+		    android:id="@+id/titlebar_title"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentLeft="true"
@@ -35,7 +35,7 @@
 		    android:textAppearance="@style/titlebar_title_style" />
 
 		<Button
-		    android:id="@id/titlebar_search"
+		    android:id="@+id/titlebar_search"
 		    android:layout_width="wrap_content"
 		    android:layout_height="35dp"
 		    android:layout_centerVertical="true"

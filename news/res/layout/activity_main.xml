@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@id/main_layout"
+	android:id="@+id/main_layout"
     android:orientation="vertical"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
@@ -8,14 +8,14 @@
     >
 
 	<RelativeLayout
-		android:id="@id/categorybar_layout"
+		android:id="@+id/categorybar_layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:background="@drawable/categorybar_background"
 
 		>
 		<Button
-			android:id="@id/category_arrow_right"
+			android:id="@+id/category_arrow_right"
 			android:layout_width="6.0dip"
 			android:layout_height="10.0dip"
 			android:background="@drawable/categorybar_right_arrow"
@@ -24,7 +24,7 @@
 			android:layout_alignParentRight="true"
 			android:layout_centerVertical="true" />
 		<HorizontalScrollView   
-			android:id="@id/category_scrollview"
+			android:id="@+id/category_scrollview"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:layout_marginLeft="6.0dip"
@@ -32,7 +32,7 @@
 			android:layout_toLeftOf="@id/category_arrow_right"
 			android:layout_centerVertical="true">
 			<LinearLayout
-				android:id="@id/category_layout"
+				android:id="@+id/category_layout"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:gravity="center_vertical"

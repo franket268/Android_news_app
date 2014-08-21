@@ -7,20 +7,11 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import com.example.custom.CustomTextView;
-import com.example.model.Parameter;
-import com.example.news.R;
-import com.example.service.SyncHttp;
-
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.StrictMode;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -35,9 +26,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.example.custom.CustomTextView;
+import com.example.model.Parameter;
+import com.example.news.R;
+import com.example.service.SyncHttp;
 
 
-public class NewsDetailsActivity extends Activity
+
+public class NewsDetailsActivity extends SherlockFragmentActivity implements OnClickListener
 {
 	private final int FINISH = 0;
 
@@ -86,11 +84,7 @@ public class NewsDetailsActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newsdetails);
-		
-		
-//		//加了以后才能时更新UI线程
-//		StrictMode.ThreadPolicy policy=new StrictMode.ThreadPolicy.Builder().permitAll().build();
-//		StrictMode.setThreadPolicy(policy);
+		initActionBar();
   
 		// 查找新闻回复图片Layout
 		mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);
@@ -99,31 +93,20 @@ public class NewsDetailsActivity extends Activity
 		// 新闻回复内容
 		mNewsReplyContent = (TextView) findViewById(R.id.news_reply_edittext);
 	
-
-		NewsDetailsOnClickListener newsDetailsOnClickListener = new NewsDetailsOnClickListener();
 		
-		// 上一篇新闻
-		Button newsDetailsTitlebarPref = (Button) findViewById(R.id.newsdetails_titlebar_previous);
-		newsDetailsTitlebarPref.setOnClickListener(newsDetailsOnClickListener);
-		// 下一篇新闻
-		Button newsDetailsTitlebarNext = (Button) findViewById(R.id.newsdetails_titlebar_next);
-		newsDetailsTitlebarNext.setOnClickListener(newsDetailsOnClickListener);
-		// 新闻回复条数Button
-		mNewsdetailsTitlebarComm = (Button) findViewById(R.id.newsdetails_titlebar_comments);
-		mNewsdetailsTitlebarComm.setOnClickListener(newsDetailsOnClickListener);
 		// 发表新闻回复图片Button
 		mNewsReplyImgBtn = (ImageButton) findViewById(R.id.news_reply_img_btn);
-		mNewsReplyImgBtn.setOnClickListener(newsDetailsOnClickListener);
+		mNewsReplyImgBtn.setOnClickListener(this);
 		// 发表回复
 		Button newsReplyPost = (Button) findViewById(R.id.news_reply_post);
-		newsReplyPost.setOnClickListener(newsDetailsOnClickListener);
+		newsReplyPost.setOnClickListener(this);
 		//发表取消
 		canclebtn=(Button)findViewById(R.id.news_reply_delete);
-		canclebtn.setOnClickListener(newsDetailsOnClickListener);
+		canclebtn.setOnClickListener(this);
 		
 		//分享新闻
 		share=(ImageButton)findViewById(R.id.news_share_btn);
-		share.setOnClickListener(newsDetailsOnClickListener);
+		share.setOnClickListener(this);
 
 		
 		
@@ -148,67 +131,86 @@ public class NewsDetailsActivity extends Activity
 		
 	}
 	
+	public void  initActionBar(){
+		View headView = LayoutInflater.from(this).inflate(R.layout.detail_news_actionbar, null);
+		// 上一篇新闻
+		Button newsDetailsTitlebarPref = (Button)headView.findViewById(R.id.newsdetails_titlebar_previous);
+		newsDetailsTitlebarPref.setOnClickListener(this);
+		// 下一篇新闻
+		Button newsDetailsTitlebarNext = (Button)headView.findViewById(R.id.newsdetails_titlebar_next);
+		newsDetailsTitlebarNext.setOnClickListener(this);
+		// 新闻回复条数Button
+		mNewsdetailsTitlebarComm = (Button) headView.findViewById(R.id.newsdetails_titlebar_comments);
+		mNewsdetailsTitlebarComm.setOnClickListener(this);
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setCustomView(headView);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
+	}
+	
 
 
 	/**
 	 * 处理NewsDetailsTitleBar点击事件
 	 */
-	class NewsDetailsOnClickListener implements OnClickListener
+
+	@Override
+	public void onClick(View v)
 	{
-		@Override
-		public void onClick(View v)
+		InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		switch (v.getId())
 		{
-			InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-			switch (v.getId())
-			{
-			// 上一条新闻
-			case R.id.newsdetails_titlebar_previous:
-				showPrevious();
-				break;
-			// 下一条新闻
-			case R.id.newsdetails_titlebar_next:
-				showNext();
-				break;
-			// 显示评论
-			case R.id.newsdetails_titlebar_comments:
-				Intent intent = new Intent(NewsDetailsActivity.this, CommentsActivity.class);
-				//传递新闻ID
-				intent.putExtra("nid", mNid);
-				startActivity(intent);
-				break;
-			// 新闻回复图片
-			case R.id.news_reply_img_btn:
-				mNewsReplyImgLayout.setVisibility(View.GONE);
-				mNewsReplyEditLayout.setVisibility(View.VISIBLE);
-				mNewsReplyContent.requestFocus();  //使输入框聚焦
-				m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-				keyboardShow=true;
-                break;
-			// 发表新闻回复
-			case R.id.news_reply_post:
-				mNewsReplyEditLayout.post(new PostCommentThread());
-				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-				mNewsReplyEditLayout.setVisibility(View.GONE);
-				m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-				break;
-			case R.id.news_reply_delete:
-				// 设置新闻回复Layout是否可见
-				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-				mNewsReplyEditLayout.setVisibility(View.GONE);
-				InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-				im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘
-				keyboardShow=false;
-				break;
-			case R.id.news_share_btn:
-				//设置分享新闻
-				   Intent intent2=new Intent(Intent.ACTION_SEND);  
-	               intent2.setType("image/*");  
-	               intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);  
-	               intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
-	               startActivity(Intent.createChooser(intent2, getTitle()));  
-			}
+		// 上一条新闻
+		case R.id.newsdetails_titlebar_previous:
+			showPrevious();
+			break;
+		// 下一条新闻
+		case R.id.newsdetails_titlebar_next:
+			showNext();
+			break;
+		// 显示评论
+		case R.id.newsdetails_titlebar_comments:
+			Intent intent = new Intent(NewsDetailsActivity.this, CommentsActivity.class);
+			//传递新闻ID
+			intent.putExtra("nid", mNid);
+			startActivity(intent);
+			break;
+		// 新闻回复图片
+		case R.id.news_reply_img_btn:
+			mNewsReplyImgLayout.setVisibility(View.GONE);
+			mNewsReplyEditLayout.setVisibility(View.VISIBLE);
+			mNewsReplyContent.requestFocus();  //使输入框聚焦
+			m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
+			keyboardShow=true;
+            break;
+		// 发表新闻回复
+		case R.id.news_reply_post:
+			mNewsReplyEditLayout.post(new PostCommentThread());
+			mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+			mNewsReplyEditLayout.setVisibility(View.GONE);
+			m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+			break;
+		case R.id.news_reply_delete:
+			// 设置新闻回复Layout是否可见
+			mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+			mNewsReplyEditLayout.setVisibility(View.GONE);
+			InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘
+			keyboardShow=false;
+			break;
+		case R.id.news_share_btn:
+			//设置分享新闻
+			   Intent intent2=new Intent(Intent.ACTION_SEND);  
+               intent2.setType("image/*");  
+               intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);  
+               intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
+               startActivity(Intent.createChooser(intent2, getTitle()));  
 		}
 	}
+	
 
 	/**
 	 * 处理新闻NewsBody触摸事件
@@ -435,6 +437,7 @@ public class NewsDetailsActivity extends Activity
 			Toast.makeText(NewsDetailsActivity.this,"评论失败", Toast.LENGTH_SHORT).show();
 		}
 	}
-	
+
+
 
 }

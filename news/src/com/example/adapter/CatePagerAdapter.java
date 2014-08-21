@@ -1,28 +1,11 @@
 package com.example.adapter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
-
-import com.example.news.R;
-import com.example.service.NewsManager;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.content.Context;
-import android.os.AsyncTask;
-import android.support.v4.view.PagerAdapter;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 public class CatePagerAdapter extends FragmentPagerAdapter {
 	private final String Tag=CatePagerAdapter.class.getSimpleName();

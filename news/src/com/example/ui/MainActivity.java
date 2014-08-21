@@ -26,6 +26,7 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.adapter.CatePagerAdapter;
 import com.example.adapter.CustomSimpleAdapter;
 import com.example.custom.Category;
+import com.example.fragment.DomesticFragment;
 import com.example.fragment.FocusFragment;
 import com.example.news.R;
 import com.example.util.StringUtil;
@@ -35,12 +36,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	private ViewPager viewPager;
 	private CatePagerAdapter pagerAdapter;
 	private final List<HashMap<String, Category>> categories = new ArrayList<HashMap<String, Category>>();
-	private int mCid;
-	private String mCatName;
-	private Button mTitlebarRefresh;
-	private ProgressBar mLoadnewsProgress;
-	private Class<?>[] mClazz = {FocusFragment.class};
+	private Class<?>[] mClazz = {FocusFragment.class,DomesticFragment.class};
 	private List<Fragment> fragments=new ArrayList<Fragment>();
+	private ViewHolder holder;
 	
 	
 	@Override
@@ -52,11 +50,8 @@ public class MainActivity extends SherlockFragmentActivity {
 	public void initView(){
 		initActionBar();
 		viewPager=(ViewPager) findViewById(R.id.main_viewPager); 
-		mTitlebarRefresh = (Button)findViewById(R.id.titlebar_refresh);
-		mLoadnewsProgress = (ProgressBar)findViewById(R.id.loadnews_progress);
-	
-	
 		
+
 		
 		//获取新闻分类
 		String[] categoryArray = getResources().getStringArray(R.array.categories);
@@ -76,9 +71,7 @@ public class MainActivity extends SherlockFragmentActivity {
 			}
 		}
 		
-		//默认选中的新闻分类
-		mCid = 1;
-		mCatName ="国内";
+
 		//创建Adapter，指明映射字段
 		CustomSimpleAdapter categoryAdapter = new CustomSimpleAdapter(this, categories, R.layout.category_title, new String[]{"category_title"}, new int[]{R.id.category_title});
 		
@@ -90,7 +83,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		category.setSelector(new ColorDrawable(Color.TRANSPARENT));
 		//根据单元格宽度和数目计算总宽度
 		//int width = mColumnWidthDip * categories.size();
-		LayoutParams params = new LayoutParams(590, LayoutParams.FILL_PARENT);
+		LayoutParams params = new LayoutParams(590, LayoutParams.WRAP_CONTENT);
 		//更新category宽度和高度，这样category在一行显示
 		category.setLayoutParams(params);
 		//设置适配器
@@ -116,9 +109,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				categoryTitle = (TextView) (parent.getChildAt(position));
 				categoryTitle.setBackgroundResource(R.drawable.categorybar_item_background);
 				categoryTitle.setTextColor(0XFFFFFFFF);
-				//获取选中的新闻分类id
-				mCid = categories.get(position).get("category_title").getCid();
-				mCatName = categories.get(position).get("category_title").getTitle();
+
 							
 				viewPager.setCurrentItem(position);
 				
@@ -151,6 +142,9 @@ public class MainActivity extends SherlockFragmentActivity {
 	
 	private void initActionBar() {
 		View headView = LayoutInflater.from(this).inflate(R.layout.main_action_bar, null);
+		holder=new ViewHolder();
+		holder.titlebarRefresh = (Button)headView.findViewById(R.id.titlebar_refresh);
+		holder.loadnewsProgress = (ProgressBar)headView.findViewById(R.id.loadnews_progress);
 		ActionBar actionBar = getSupportActionBar();
 		actionBar.setCustomView(headView);
 		actionBar.setDisplayShowCustomEnabled(true);
@@ -158,6 +152,15 @@ public class MainActivity extends SherlockFragmentActivity {
 		actionBar.setDisplayHomeAsUpEnabled(true);
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
+	}
+	
+	public class ViewHolder{
+		public  Button titlebarRefresh;
+		public ProgressBar loadnewsProgress;
+	}
+	
+	public ViewHolder getViewHolder(){
+		return holder;
 	}
 	
 	
