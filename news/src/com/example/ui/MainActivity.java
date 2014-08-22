@@ -9,6 +9,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,7 +32,6 @@ import com.example.fragment.FocusFragment;
 import com.example.news.R;
 import com.example.util.StringUtil;
 
-
 public class MainActivity extends SherlockFragmentActivity {
 	private ViewPager viewPager;
 	private CatePagerAdapter pagerAdapter;
@@ -39,19 +39,22 @@ public class MainActivity extends SherlockFragmentActivity {
 	private Class<?>[] mClazz = {FocusFragment.class,DomesticFragment.class};
 	private List<Fragment> fragments=new ArrayList<Fragment>();
 	private ViewHolder holder;
-	
-	
+	private GridView category;
+		
+		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);	
+		setContentView(R.layout.activity_main);
+		
 		initView();
-	}
-	public void initView(){
+		}
+		public void initView(){
 		initActionBar();
 		viewPager=(ViewPager) findViewById(R.id.main_viewPager); 
+	
 		
-
+		
 		
 		//获取新闻分类
 		String[] categoryArray = getResources().getStringArray(R.array.categories);
@@ -62,20 +65,21 @@ public class MainActivity extends SherlockFragmentActivity {
 			String[] temp = categoryArray[i].split("[|]");
 			if (temp.length==2)
 			{
-				int cid = StringUtil.String2Int(temp[0]);
-				String title = temp[1];
-				Category type = new Category(cid, title);
-				HashMap<String, Category> hashMap = new HashMap<String, Category>();
-				hashMap.put("category_title", type);
-				categories.add(hashMap);
-			}
-		}
+			int cid = StringUtil.String2Int(temp[0]);
+			String title = temp[1];
+			Category type = new Category(cid, title);
+			HashMap<String, Category> hashMap = new HashMap<String, Category>();
+			hashMap.put("category_title", type);
+			categories.add(hashMap);
+		     }
+	    }
 		
-
+		
+		
 		//创建Adapter，指明映射字段
 		CustomSimpleAdapter categoryAdapter = new CustomSimpleAdapter(this, categories, R.layout.category_title, new String[]{"category_title"}, new int[]{R.id.category_title});
 		
-		GridView category = new GridView(this);
+		category = new GridView(this);
 		category.setColumnWidth(90);//每个单元格宽度
 		category.setNumColumns(GridView.AUTO_FIT);//单元格数目
 		category.setGravity(Gravity.CENTER);//设置对其方式
@@ -93,7 +97,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		categoryList.addView(category);
 		//添加单元格点击事件
 		category.setOnItemClickListener(new OnItemClickListener()
-		{
+			{
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id)
 			{
@@ -102,23 +106,16 @@ public class MainActivity extends SherlockFragmentActivity {
 				for (int i = 0; i < parent.getChildCount(); i++)
 				{
 					categoryTitle = (TextView) (parent.getChildAt(i));
-					categoryTitle.setBackgroundDrawable(null);
 					categoryTitle.setTextColor(0XFFADB2AD);
 				}
 				//设置选择单元格的背景色
 				categoryTitle = (TextView) (parent.getChildAt(position));
 				categoryTitle.setBackgroundResource(R.drawable.categorybar_item_background);
 				categoryTitle.setTextColor(0XFFFFFFFF);
-
-							
-				viewPager.setCurrentItem(position);
-				
-				//获取该栏目下新闻
-				//getSpeCateNews(mCid,mNewsData,0,true);
-				//通知ListView进行更新
-				//mNewsListAdapter.notifyDataSetChanged();
-				
-
+		
+		
+		
+				viewPager.setCurrentItem(position);	
 			}
 		});
 		
@@ -127,41 +124,69 @@ public class MainActivity extends SherlockFragmentActivity {
 			try {
 				Fragment fragment = (Fragment) mClazz[i].newInstance();
 				fragments.add(fragment);
-			} catch (InstantiationException | IllegalAccessException e) {
-				// TODO Auto-generated catch block
-			}
-            
+			    } catch (InstantiationException | IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			    }
+		            
 		}
 		
 		pagerAdapter=new CatePagerAdapter(getSupportFragmentManager(),fragments);
 		viewPager.setAdapter(pagerAdapter);
+		viewPager.setOnPageChangeListener(new OnPageChangeListener() {
+			
+			@Override
+			public void onPageSelected(int position) {
+				TextView categoryTitle;
+				for (int i = 0; i < category.getChildCount(); i++)
+				{
+				categoryTitle = (TextView) (category.getChildAt(i));
+				categoryTitle.setTextColor(0XFFADB2AD);
+				}
+				//设置选择单元格的背景色
+				categoryTitle = (TextView) (category.getChildAt(position));
+				categoryTitle.setBackgroundResource(R.drawable.categorybar_item_background);
+				categoryTitle.setTextColor(0XFFFFFFFF);
+				
+			}
+			
+			@Override
+			public void onPageScrolled(int arg0, float arg1, int arg2) {
+			// TODO Auto-generated method stub
+			
+			}
+			
+			@Override
+			public void onPageScrollStateChanged(int arg0) {
+			// TODO Auto-generated method stub
+			
+			}
+		});
+
+
+}
+
+		private void initActionBar() {
+			View headView = LayoutInflater.from(this).inflate(R.layout.main_action_bar, null);
+			holder=new ViewHolder();
+			holder.titlebarRefresh = (Button)headView.findViewById(R.id.titlebar_refresh);
+			holder.loadnewsProgress = (ProgressBar)headView.findViewById(R.id.loadnews_progress);
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setCustomView(headView);
+			actionBar.setDisplayShowCustomEnabled(true);
+			actionBar.setDisplayShowHomeEnabled(false);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+			actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
+		}
 		
+		public class ViewHolder{
+			public  Button titlebarRefresh;
+			public ProgressBar loadnewsProgress;
+		}
 		
-		
-	}
-	
-	private void initActionBar() {
-		View headView = LayoutInflater.from(this).inflate(R.layout.main_action_bar, null);
-		holder=new ViewHolder();
-		holder.titlebarRefresh = (Button)headView.findViewById(R.id.titlebar_refresh);
-		holder.loadnewsProgress = (ProgressBar)headView.findViewById(R.id.loadnews_progress);
-		ActionBar actionBar = getSupportActionBar();
-		actionBar.setCustomView(headView);
-		actionBar.setDisplayShowCustomEnabled(true);
-		actionBar.setDisplayShowHomeEnabled(false);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
-	}
-	
-	public class ViewHolder{
-		public  Button titlebarRefresh;
-		public ProgressBar loadnewsProgress;
-	}
-	
-	public ViewHolder getViewHolder(){
-		return holder;
-	}
-	
-	
+		public ViewHolder getViewHolder(){
+			return holder;
+		}
+
+
 }

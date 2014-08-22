@@ -54,10 +54,10 @@ public class CustomTextView extends LinearLayout
 				int imageheight = mTypedArray.getDimensionPixelOffset(R.styleable.customTextView_image_height, 100);
 				//创建ImageView并设置属性
 				ImageView imageView = new ImageView(mContext);
-				LayoutParams params = new LayoutParams(imageWidth, imageheight);
+				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, imageheight);
 				params.gravity = Gravity.CENTER_HORIZONTAL;//居中
 				imageView.setLayoutParams(params);
-				imageView.setImageResource(R.drawable.newsdetails_titlebar_btn_refresh);//默认图片
+		//		imageView.setImageResource(R.drawable.newsdetails_titlebar_btn_refresh);//默认图片
 				imageView.setScaleType(ScaleType.CENTER_INSIDE);
 				addView(imageView);
 				//启动线程，异步加载图片
@@ -87,9 +87,9 @@ public class CustomTextView extends LinearLayout
 		{
 			HashMap<String, Object> hashMap = (HashMap<String, Object>)msg.obj;
 			ImageView imageView = (ImageView)hashMap.get("imageview");
-			LayoutParams params = new LayoutParams(msg.arg1,msg.arg2);
-			params.gravity = Gravity.CENTER_HORIZONTAL;//居中
-			imageView.setLayoutParams(params);
+//			LayoutParams params = new LayoutParams(300,300);
+//			params.gravity = Gravity.CENTER_HORIZONTAL;//居中
+//			imageView.setLayoutParams(params);
 			Drawable drawable = (Drawable)hashMap.get("drawable");
 			imageView.setImageDrawable(drawable);
 		}

@@ -2,10 +2,6 @@ package com.example.ui;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,16 +25,14 @@ import android.widget.ViewFlipper;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.custom.CustomTextView;
-import com.example.model.Parameter;
 import com.example.news.R;
-import com.example.service.SyncHttp;
+import com.example.service.NewsManager;
 
 
 
 public class NewsDetailsActivity extends SherlockFragmentActivity implements OnClickListener
 {
 	private final int FINISH = 0;
-
 	private ViewFlipper mNewsBodyFlipper;
 	private LayoutInflater mNewsBodyInflater;
 	private float mStartX;
@@ -58,9 +52,12 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 	private String region="郑州";//定位所在地方，默认是郑州
 	private Boolean keyboardShow=false;
 	private ImageButton share;//分享按钮
-
+	private NewsManager mNewsManager;
 	
-
+	
+	
+	
+	
 	private Handler mHandler = new Handler()
 	{
 		@Override
@@ -68,31 +65,36 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		{
 			switch (msg.arg1)
 			{
-			case FINISH:
+				case FINISH:
 				// 把获取到的新闻显示到界面上
-				//mNewsDetails.setText(Html.fromHtml(msg.obj.toString()));
 				ArrayList<HashMap<String,Object>> bodyList=(ArrayList<HashMap<String,Object>>)msg.obj;
 				mNewsDetails.setText(bodyList);
 				break;
 			}
 		}
 	};
-
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.newsdetails);
+		mNewsManager=new NewsManager();
+		initView();
+	}
+	
+	public void initView(){
 		initActionBar();
-  
+		  
 		// 查找新闻回复图片Layout
 		mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);
 		// 查找新闻回复回复Layout
 		mNewsReplyEditLayout = (RelativeLayout) findViewById(R.id.news_reply_edit_layout);
 		// 新闻回复内容
 		mNewsReplyContent = (TextView) findViewById(R.id.news_reply_edittext);
-	
+		
 		
 		// 发表新闻回复图片Button
 		mNewsReplyImgBtn = (ImageButton) findViewById(R.id.news_reply_img_btn);
@@ -107,7 +109,8 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		//分享新闻
 		share=(ImageButton)findViewById(R.id.news_share_btn);
 		share.setOnClickListener(this);
-
+		
+		
 		
 		
 		// 获取传递的数据
@@ -122,7 +125,8 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		mNewsData = (ArrayList<HashMap<String, Object>>) s;
 		// 获取点击位置
 		mCursor = mPosition = bundle.getInt("position");
-
+		
+		
 		// 动态创建新闻视图并赋值
 		mNewsBodyInflater = getLayoutInflater();
 		inflateView(0);
@@ -151,114 +155,119 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
 	}
 	
-
-
+	
+	
+	
+	
 	/**
-	 * 处理NewsDetailsTitleBar点击事件
-	 */
-
+	* 处理NewsDetailsTitleBar点击事件
+	*/
+	
+	
 	@Override
 	public void onClick(View v)
 	{
 		InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
 		switch (v.getId())
 		{
-		// 上一条新闻
-		case R.id.newsdetails_titlebar_previous:
-			showPrevious();
-			break;
-		// 下一条新闻
-		case R.id.newsdetails_titlebar_next:
-			showNext();
-			break;
-		// 显示评论
-		case R.id.newsdetails_titlebar_comments:
-			Intent intent = new Intent(NewsDetailsActivity.this, CommentsActivity.class);
-			//传递新闻ID
-			intent.putExtra("nid", mNid);
-			startActivity(intent);
-			break;
-		// 新闻回复图片
-		case R.id.news_reply_img_btn:
-			mNewsReplyImgLayout.setVisibility(View.GONE);
-			mNewsReplyEditLayout.setVisibility(View.VISIBLE);
-			mNewsReplyContent.requestFocus();  //使输入框聚焦
-			m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
-			keyboardShow=true;
-            break;
-		// 发表新闻回复
-		case R.id.news_reply_post:
-			mNewsReplyEditLayout.post(new PostCommentThread());
-			mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-			mNewsReplyEditLayout.setVisibility(View.GONE);
-			m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-			break;
-		case R.id.news_reply_delete:
-			// 设置新闻回复Layout是否可见
-			mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-			mNewsReplyEditLayout.setVisibility(View.GONE);
-			InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-			im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘
-			keyboardShow=false;
-			break;
-		case R.id.news_share_btn:
+			// 上一条新闻
+			case R.id.newsdetails_titlebar_previous:
+				showPrevious();
+				break;
+			// 下一条新闻
+			case R.id.newsdetails_titlebar_next:
+				showNext();
+				break;
+			// 显示评论
+			case R.id.newsdetails_titlebar_comments:
+				Intent intent = new Intent(NewsDetailsActivity.this, CommentsActivity.class);
+				//传递新闻ID
+				intent.putExtra("nid", mNid);
+				startActivity(intent);
+				break;
+			// 新闻回复图片
+			case R.id.news_reply_img_btn:
+				mNewsReplyImgLayout.setVisibility(View.GONE);
+				mNewsReplyEditLayout.setVisibility(View.VISIBLE);
+				mNewsReplyContent.requestFocus();  //使输入框聚焦
+				m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);
+				keyboardShow=true;
+			    break;
+			// 发表新闻回复
+			case R.id.news_reply_post:
+				mNewsReplyEditLayout.post(new PostCommentThread());
+				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+				mNewsReplyEditLayout.setVisibility(View.GONE);
+				m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+				break;
+			case R.id.news_reply_delete:
+				// 设置新闻回复Layout是否可见
+				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+				mNewsReplyEditLayout.setVisibility(View.GONE);
+				InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+				im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘
+				keyboardShow=false;
+				break;
+			case R.id.news_share_btn:
 			//设置分享新闻
 			   Intent intent2=new Intent(Intent.ACTION_SEND);  
-               intent2.setType("image/*");  
-               intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);  
+	           intent2.setType("image/*");  
+	           intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);  
                intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);  
                startActivity(Intent.createChooser(intent2, getTitle()));  
-		}
-	}
-	
-
-	/**
-	 * 处理新闻NewsBody触摸事件
-	 */
-	class NewsBodyOnTouchListener implements OnTouchListener
-	{
-		@Override
-		public boolean onTouch(View v, MotionEvent event)
-		{
-			switch (event.getAction())
-			{
-			// 手指按下
-			case MotionEvent.ACTION_DOWN:
-                if(keyboardShow)
-                {
-                	mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-    				mNewsReplyEditLayout.setVisibility(View.GONE);
-    				InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-    				m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
-    				keyboardShow=false;
-                }
-				
-				
-				
-				// 记录起始坐标
-				mStartX = event.getX();
-				break;
-			// 手指抬起
-			case MotionEvent.ACTION_UP:
-				// 往左滑动
-				if (event.getX() < mStartX)
-				{
-					showPrevious();
-				}
-				// 往右滑动
-				else if (event.getX() > mStartX)
-				{
-					showNext();
-				}
-				break;
 			}
-			return true;
 		}
-	}
-
+		
+		
+		
+		/**
+		* 处理新闻NewsBody触摸事件
+		*/
+		class NewsBodyOnTouchListener implements OnTouchListener
+		{
+			@Override
+			public boolean onTouch(View v, MotionEvent event)
+			{
+				switch (event.getAction())
+				{
+					// 手指按下
+					case MotionEvent.ACTION_DOWN:
+	                if(keyboardShow)
+	                {
+		                mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+		                mNewsReplyEditLayout.setVisibility(View.GONE);
+					    InputMethodManager m = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+					    m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+					    keyboardShow=false;
+					}
+				
+				
+					
+					// 记录起始坐标
+					mStartX = event.getX();
+					break;
+					// 手指抬起
+					case MotionEvent.ACTION_UP:
+					// 往左滑动
+					if (event.getX() < mStartX)
+					{
+					showPrevious();
+					}
+					// 往右滑动
+					else if (event.getX() > mStartX)
+					{
+					showNext();
+					}
+					break;
+				}
+				return true;
+			}
+		}
+	
+	
 	/**
-	 * 显示下一条新闻
-	 */
+	* 显示下一条新闻
+	*/
 	private void showNext()
 	{
 		// 判断是否是最后一篇新闻
@@ -278,12 +287,13 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 			// 显示下一屏
 			mNewsBodyFlipper.showNext();
 		} else
-		{
+		  {
 			Toast.makeText(this, "没有下条新闻", Toast.LENGTH_SHORT).show();
-		}
+		  }
 		System.out.println(mCursor + ";" + mPosition);
 	}
-
+	
+	
 	private void showPrevious()
 	{
 		if (mPosition > 0)
@@ -296,18 +306,19 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 			{
 				mCursor = mPosition;
 				inflateView(0);
-		//		System.out.println(mNewsBodyFlipper.getChildCount());
+				// System.out.println(mNewsBodyFlipper.getChildCount());
 				mNewsBodyFlipper.showNext();// 显示下一页
 			}
 			mNewsBodyFlipper.setInAnimation(this, R.anim.push_right_in);// 定义下一页进来时的动画
 			mNewsBodyFlipper.setOutAnimation(this, R.anim.push_right_out);// 定义当前页出去的动画
 			mNewsBodyFlipper.showPrevious();// 显示上一页
 		} else
-		{
+		  {
 			Toast.makeText(this,"没有上条新闻", Toast.LENGTH_SHORT).show();
-		}
+	      }
 	}
-
+	
+	
 	private void inflateView(int index)
 	{
 		// 动态创建新闻视图，并赋值
@@ -329,67 +340,30 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		mNid = (Integer) hashMap.get("nid");
 		// 新闻回复数
 		mNewsdetailsTitlebarComm.setText(hashMap.get("newslist_item_comments") + "跟帖");
-
+		
+		
 		// 把新闻视图添加到Flipper中
 		mNewsBodyFlipper = (ViewFlipper) findViewById(R.id.news_body_flipper);
 		mNewsBodyFlipper.addView(newsBodyLayout, index);
-
+		
+		
 		// 给新闻Body添加触摸事件
-		mNewsDetails = (CustomTextView) newsBodyLayout.findViewById(R.id.news_body_details);
-		mNewsDetails.setOnTouchListener(new NewsBodyOnTouchListener());
-
+		 mNewsDetails = (CustomTextView) newsBodyLayout.findViewById(R.id.news_body_details);
+		 mNewsDetails.setOnTouchListener(new NewsBodyOnTouchListener());
+		
+		
 		// 启动线程
 		new UpdateNewsThread().start();
 	}
-
+	
+	
+	
+	
 	/**
-	 * 获取新闻详细信息
-	 * 
-	 * @return
-	 */
-	private ArrayList<HashMap<String,Object>> getNewsBody()
-	{
-		String retStr = "网络连接失败，请稍后再试";
-		SyncHttp syncHttp = new SyncHttp();
-		ArrayList<HashMap<String,Object>> bodyList=new ArrayList<HashMap<String,Object>>();
-		String url = "http://54.186.248.222:8080/web/getNews";
-		String params = "nid=" + mNid;
-		try
-		{
-			String retString = syncHttp.httpGet(url, params);
-			JSONObject jsonObject = new JSONObject(retString);
-			// 获取返回码，0表示成功
-			int retCode = jsonObject.getInt("ret");
-			if (0 == retCode)
-			{
-				JSONObject dataObject = jsonObject.getJSONObject("data");
-				JSONObject newsObject = dataObject.getJSONObject("news");
-				//retStr = newsObject.getString("body");
-				//String s=newsObject.getString("imgsrc");
-				//System.out.println(s);
-				JSONArray bodyArray=newsObject.getJSONArray("body");
-				for(int i=0;i<bodyArray.length();i++)
-				{
-					JSONObject object=(JSONObject)bodyArray.opt(i);
-					HashMap<String,Object> hashMap=new HashMap<String,Object>();
-					hashMap.put("index", object.get("index"));
-					hashMap.put("type", object.get("type"));
-					hashMap.put("value", object.get("value"));
-					bodyList.add(hashMap);
-				}
-			}
-
-		} catch (Exception e)
-		{
-			e.printStackTrace();
-		}
-		return bodyList;
-	}
-
-	/**
-	 * 更新新闻内容
-
-	 */
+	* 更新新闻内容
+	
+	
+	*/
 	private class UpdateNewsThread extends Thread
 	{
 		@Override
@@ -397,47 +371,35 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
 		{
 			
 			// 从网络上获取新闻
-			ArrayList<HashMap<String,Object>> bodyList = getNewsBody();
+			ArrayList<HashMap<String,Object>> bodyList = mNewsManager.getNewsBody(mNid);
 			Message msg = mHandler.obtainMessage();
 			msg.arg1 = FINISH;
 			msg.obj = bodyList;
 			mHandler.sendMessage(msg);
 		}
 	}
-
-
+	
+	
+	
+	
 	private class PostCommentThread extends Thread
 	{
+	
 		@Override
 		public void run()
-		{
-			SyncHttp syncHttp = new SyncHttp();
-			String url = "http://54.186.248.222:8080/web/postComment";
-			List<Parameter> params = new ArrayList<Parameter>();
-			params.add(new Parameter("nid", mNid + ""));
-			params.add(new Parameter("region",region));
-			params.add(new Parameter("content", mNewsReplyContent.getText().toString()));
-			try
+		{ 
+			int retCode=mNewsManager.postComment(mNid, region,  mNewsReplyContent.getText().toString());
+			if (0 == retCode)
 			{
-				String retStr = syncHttp.httpPost(url, params);
-				JSONObject jsonObject = new JSONObject(retStr);
-				int retCode = jsonObject.getInt("ret");
-				if (0 == retCode)
-				{
-					Toast.makeText(NewsDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
-					mNewsReplyImgLayout.setVisibility(View.VISIBLE);
-					mNewsReplyEditLayout.setVisibility(View.GONE);
-					return;
-				}
-
-			} catch (Exception e)
-			{
-				e.printStackTrace();
+				Toast.makeText(NewsDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();
+				mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+				mNewsReplyEditLayout.setVisibility(View.GONE);
+				return;
 			}
+		
+		
 			Toast.makeText(NewsDetailsActivity.this,"评论失败", Toast.LENGTH_SHORT).show();
 		}
 	}
-
-
-
+	
 }

@@ -39,7 +39,7 @@ public class FocusFragment extends Fragment implements OnClickListener{
 	private final int NONEWS = 1;//该栏目下没有新闻
 	private final int NOMORENEWS = 2;//该栏目下没有更多新闻
 	private final int LOADERROR = 3;//加载失败
-	
+	private View loadMoreLayout;
 	
 	
 	
@@ -49,6 +49,8 @@ public class FocusFragment extends Fragment implements OnClickListener{
 		super.onCreate(savedInstanceState);
 		mHolder=((MainActivity)getActivity()).getViewHolder();
 		mNewsManager=new NewsManager();
+	    loadMoreLayout = getActivity().getLayoutInflater().inflate(R.layout.loadmore, null);
+		mLoadMoreBtn=(Button) loadMoreLayout.findViewById(R.id.loadmore_btn);
 		asyncTask.execute(CATEGORY_TYPE,0,true);
 	}
 	
@@ -81,8 +83,7 @@ public class FocusFragment extends Fragment implements OnClickListener{
 			return;
 		}
 		mFocusList=(ListView) contentView.findViewById(R.id.newsList);
-		View loadMoreLayout = getActivity().getLayoutInflater().inflate(R.layout.loadmore, null);
-		mLoadMoreBtn=(Button) loadMoreLayout.findViewById(R.id.loadmore_btn);
+		
 		mLoadMoreBtn.setOnClickListener(this);
 		mHolder.titlebarRefresh.setOnClickListener(this);
 		mFocusList.addFooterView(loadMoreLayout);
@@ -99,7 +100,7 @@ public class FocusFragment extends Fragment implements OnClickListener{
 				//把需要的信息放到Intent中
 				intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
 				intent.putExtra("position", position);
-				intent.putExtra("categoryName", mCatName);
+				intent.putExtra("categoryName", getActivity().getResources().getString(R.string.focus));
 				startActivity(intent);
 				
 			}
