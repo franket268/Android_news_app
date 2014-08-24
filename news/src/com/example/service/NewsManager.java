@@ -18,22 +18,21 @@ public class NewsManager {
 	private final int NONEWS = 1;//该栏目下没有新闻
 	private final int NOMORENEWS = 2;//该栏目下没有更多新闻
 	private final int LOADERROR = 3;//加载失败
-
-
-
+	
+	
+	
 	/**
-	* 获取指定类型的新闻列表
-	* @param cid 类型ID
-	* @param newsList 保存新闻信息的集合
-	* @param startnid 分页
-	* @param firstTimes
-	是否第一次加载
-	*/
+	 * 获取指定类型的新闻列表
+	 * @param cid 类型ID
+	 * @param newsList 保存新闻信息的集合
+	 * @param startnid 分页
+	 * @param firstTimes	是否第一次加载
+	 */
 	public int getSpeCateNews(int cid,List<HashMap<String, Object>> newsList,int startnid,Boolean firstTimes)
 	{
 		if (firstTimes)
 		{
-		//如果是第一次，则清空集合里数据
+			//如果是第一次，则清空集合里数据
 			newsList.clear();
 		}
 		//请求URL和字符串
@@ -84,20 +83,20 @@ public class NewsManager {
 			}
 			else
 			{
-			return LOADERROR;
+				return LOADERROR;
 			}
 		} catch (Exception e)
 		{
-		e.printStackTrace();
-		return LOADERROR;
+			e.printStackTrace();
+			return LOADERROR;
 		}
 	}
 	
 	/**
-	* 获取新闻详细信息
-	* 
-	* @return
-	*/
+	 * 获取新闻详细信息
+	 * 
+	 * @return
+	 */
 	public ArrayList<HashMap<String,Object>> getNewsBody(int nid)
 	{
 		SyncHttp syncHttp = new SyncHttp();
@@ -125,21 +124,26 @@ public class NewsManager {
 					hashMap.put("index", object.get("index"));
 					hashMap.put("type", object.get("type"));
 					hashMap.put("value", object.get("value"));
+				
 					bodyList.add(hashMap);
 				}
 			}
-			
-			
+
 		} catch (Exception e)
 		{
-		e.printStackTrace();
+			e.printStackTrace();
 		}
 		return bodyList;
 	}
 	
+	/**
+	 * 发表评论
+
+	 */
+	
 	public int postComment(int nid,String region,String replyContent){
 		SyncHttp syncHttp = new SyncHttp();
-		String url = "http://54.186.248.222:8080/web/postComment";
+		String url = "http://54.187.183.108:8080/web/postComment";
 		List<Parameter> params = new ArrayList<Parameter>();
 		int retCode=-1;
 		params.add(new Parameter("nid", nid + ""));
@@ -150,11 +154,65 @@ public class NewsManager {
 			String retStr = syncHttp.httpPost(url, params);
 			JSONObject jsonObject = new JSONObject(retStr);
 			retCode = jsonObject.getInt("ret");
-		
+
+
 		} catch (Exception e)
 		{
-		e.printStackTrace();
+			e.printStackTrace();
 		}
-		return retCode;
+       return retCode;
 	}
+	
+	
+	/**
+	 * 获取评论
+
+	 */
+	
+	
+	public int getComments(int nid,List<HashMap<String,Object>> mCommsData)
+	{
+	//请求URL和字符串
+	String url = "http://54.187.183.108:8080/web/getComments";
+	String params ="nid="+nid+"&startnid=0&count=10";
+	SyncHttp syncHttp = new SyncHttp();
+	int retCode =-1;
+	try
+	{
+		//以Get方式请求，并获得返回结果
+		String retStr = syncHttp.httpGet(url, params);
+		JSONObject jsonObject = new JSONObject(retStr);
+		//获取返回码，0表示成功
+	    retCode = jsonObject.getInt("ret");
+		if (0==retCode)
+		{
+			JSONObject dataObject = jsonObject.getJSONObject("data");
+			//获取返回数目
+			int totalnum = dataObject.getInt("totalnum");
+			if (totalnum>0)
+			{
+				//获取返回新闻集合
+				JSONArray newslist = dataObject.getJSONArray("commentslist");
+				for(int i=0;i<newslist.length();i++)
+				{
+					JSONObject newsObject = (JSONObject)newslist.opt(i); 
+					HashMap<String, Object> hashMap = new HashMap<String, Object>();
+					hashMap.put("comid", newsObject.getInt("comid"));
+					hashMap.put("commentator_from", newsObject.getString("region"));
+					hashMap.put("comment_ptime", newsObject.getString("ptime"));
+					hashMap.put("comment_content", newsObject.getString("content"));
+					mCommsData.add(hashMap);
+				}
+			}
+
+		}
+
+	} catch (Exception e)
+	{
+		e.printStackTrace();
+		
+	}
+	return retCode;
+}
+	
 }
