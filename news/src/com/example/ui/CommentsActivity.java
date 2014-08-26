@@ -27,18 +27,18 @@ import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.news.R;
 import com.example.service.NewsManager;
 
-public class CommentsActivity extends SherlockFragmentActivity  {  
+public class CommentsActivity extends SherlockFragmentActivity implements OnClickListener   {  
     private List<HashMap<String,Object>> mCommsData;  
     private ImageButton mNewsReplyImgBtn;// 发表新闻回复图片  
     private LinearLayout mNewsReplyImgLayout;// 发表新闻回复图片Layout  
     private RelativeLayout mNewsReplyEditLayout;// 发表新闻回复回复Layout  
     private TextView mNewsReplyContent;// 新闻回复内容  
-    private Button canclebtn;//发表取消键  
     private ImageButton news_share_btn;  
     private int mNid;  
-    private String mRegion="广东";  
+    private String mRegion="广东网友";  
     private NewsManager mNewsManager;  
     private ListView commentsList;  
+    private ImageButton tabBack;
     private SimpleAdapter commentsAdapter;    
     private final int GET_COMMENTS_ERROR=0;  
     private final int GET_COMMENTS_SUCCESS=1;  
@@ -96,13 +96,16 @@ public class CommentsActivity extends SherlockFragmentActivity  {
         new GetCommentThread().start();  
           
          commentsAdapter = new SimpleAdapter(this, mCommsData, R.layout.comments_list_item, new String[]  
-        { "commentator_from", "comment_ptime", "comment_content" }, new int[]  
+        { "commentator_from"+"网友", "comment_ptime", "comment_content" }, new int[]  
         { R.id.commentator_from, R.id.comment_ptime, R.id.comment_content });  
   
         commentsList = (ListView) findViewById(R.id.comments_list);  
         commentsList.setAdapter(commentsAdapter);  
           
-          
+        //切换回回复默认
+        tabBack=(ImageButton) findViewById(R.id.tap_back);
+        tabBack.setOnClickListener(this);  
+        
         //把分享按钮屏蔽  
         news_share_btn=(ImageButton)findViewById(R.id.news_share_btn);  
         news_share_btn.setVisibility(View.GONE);  
@@ -120,18 +123,17 @@ public class CommentsActivity extends SherlockFragmentActivity  {
                 finish();  
             }  
         });  
-          
-        CommentsOnClickListener commsOnClickListener = new CommentsOnClickListener();  
+        
         mNewsReplyImgBtn = (ImageButton) findViewById(R.id.news_reply_img_btn);  
-        mNewsReplyImgBtn.setOnClickListener(commsOnClickListener);  
+        mNewsReplyImgBtn.setOnClickListener(this);  
           
           
         // 发表回复  
         Button newsReplyPost = (Button) findViewById(R.id.news_reply_post);  
-        newsReplyPost.setOnClickListener(commsOnClickListener);  
-        //取消发发表  
-        canclebtn=(Button)findViewById(R.id.news_reply_delete);  
-        canclebtn.setOnClickListener(commsOnClickListener);  
+        newsReplyPost.setOnClickListener(this);  
+//        //取消发发表  
+//        canclebtn=(Button)findViewById(R.id.news_reply_delete);  
+//        canclebtn.setOnClickListener(commsOnClickListener);  
           
     }  
       
@@ -146,8 +148,7 @@ public class CommentsActivity extends SherlockFragmentActivity  {
         actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));  
     }  
       
-    class CommentsOnClickListener implements OnClickListener  
-    {  
+ 
         @Override  
         public void onClick(View v)  
         {  
@@ -155,30 +156,27 @@ public class CommentsActivity extends SherlockFragmentActivity  {
             switch (v.getId())  
             {  
             // 新闻回复图片  
-            case R.id.news_reply_img_btn:  
-                mNewsReplyImgLayout.setVisibility(View.GONE);  
-                mNewsReplyEditLayout.setVisibility(View.VISIBLE);  
-                mNewsReplyContent.requestFocus();  //使输入框聚焦  
-                m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);  
-                break;  
-            // 发表新闻回复  
-            case R.id.news_reply_post:  
-                mNewsReplyEditLayout.post(new PostCommentThread());  
-                mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
-                mNewsReplyEditLayout.setVisibility(View.GONE);  
-                m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);  
-                break;  
-          //取消发布  
-            case R.id.news_reply_delete:  
-                // 设置新闻回复Layout是否可见  
-                mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
-                mNewsReplyEditLayout.setVisibility(View.GONE);  
-                InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
-                im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘  
-                break;  
-            }  
+        case R.id.news_reply_img_btn:  
+            mNewsReplyImgLayout.setVisibility(View.GONE);  
+            mNewsReplyEditLayout.setVisibility(View.VISIBLE);  
+            mNewsReplyContent.requestFocus();  //使输入框聚焦  
+            m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);  
+            break;  
+        // 发表新闻回复  
+        case R.id.news_reply_post:  
+            mNewsReplyEditLayout.post(new PostCommentThread());  
+            mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
+            mNewsReplyEditLayout.setVisibility(View.GONE);  
+            m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);  
+            break;  
+        case R.id.tap_back:
+        	mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+        	mNewsReplyEditLayout.setVisibility(View.GONE);
+        	break;
+
         }  
-    }  
+        
+      }  
       
   
   

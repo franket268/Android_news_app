@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import android.util.Log;
+
 import com.example.model.Parameter;
 
 public class NewsManager {
@@ -146,20 +148,21 @@ public class NewsManager {
 		String url = "http://54.187.183.108:8080/web/postComment";
 		List<Parameter> params = new ArrayList<Parameter>();
 		int retCode=-1;
-		params.add(new Parameter("nid", nid + ""));
-		params.add(new Parameter("region",region));
-		params.add(new Parameter("content", replyContent));
+		params.add(new Parameter("nid","11"));
+		params.add(new Parameter("region","lala"));
+		params.add(new Parameter("content", "haha"));
 		try
 		{
 			String retStr = syncHttp.httpPost(url, params);
 			JSONObject jsonObject = new JSONObject(retStr);
 			retCode = jsonObject.getInt("ret");
-
+				
 
 		} catch (Exception e)
 		{
 			e.printStackTrace();
 		}
+		Log.d("tag1",String.valueOf(retCode));
        return retCode;
 	}
 	

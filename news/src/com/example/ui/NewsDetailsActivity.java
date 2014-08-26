@@ -48,30 +48,42 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
     private RelativeLayout mNewsReplyEditLayout;// 发表新闻回复回复Layout  
     private TextView mNewsReplyContent;// 新闻回复内容  
     private Button canclebtn;//发表取消键  
-    private String region="广东";//定位所在地方，默认是广东  
+    private String region="广东网友";//定位所在地方，默认是广东  
+    private String categoryName;
     private Boolean keyboardShow=false;  
     private ImageButton share;//分享按钮  
     private NewsManager mNewsManager;  
   
     private ViewPager detailViewPager;  
     private DetailPagerAdapter detailPagerAdapter;  
-  
+    private ImageButton tabBack;
   
     @Override  
     public void onCreate(Bundle savedInstanceState)  
     {  
         super.onCreate(savedInstanceState);  
-        setContentView(R.layout.news_detail);  
+        setContentView(R.layout.newsdetails);  
         mNewsManager=new NewsManager();  
+        // 获取传递的数据  
+        Intent intent = getIntent();  
+        Bundle bundle = intent.getExtras();  
+        // 设置标题栏名称  
+        categoryName = bundle.getString("categoryName");  
+        // 获取新闻集合  
+        Serializable s = bundle.getSerializable("newsData");  
+        mNewsData = (ArrayList<HashMap<String, Object>>) s;  
+        // 获取点击位置  
+        mPosition = bundle.getInt("position");  
+        mNid=(int) mNewsData.get(mPosition).get("nid");
+        
         initView();  
     }  
       
     public void initView(){  
         initActionBar();  
     
-        // 查找新闻回复图片Layout  
-        mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);  
-        // 查找新闻回复回复Layout  
+
+        mNewsReplyImgLayout = (LinearLayout) findViewById(R.id.news_reply_img_layout);    
         mNewsReplyEditLayout = (RelativeLayout) findViewById(R.id.news_reply_edit_layout);  
         // 新闻回复内容  
         mNewsReplyContent = (TextView) findViewById(R.id.news_reply_edittext);  
@@ -83,30 +95,18 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
         // 发表回复  
         Button newsReplyPost = (Button) findViewById(R.id.news_reply_post);  
         newsReplyPost.setOnClickListener(this);  
-        //发表取消  
-        canclebtn=(Button)findViewById(R.id.news_reply_delete);  
-        canclebtn.setOnClickListener(this);  
-          
+
         //分享新闻  
         share=(ImageButton)findViewById(R.id.news_share_btn);  
         share.setOnClickListener(this);  
-  
-          
-          
-        // 获取传递的数据  
-        Intent intent = getIntent();  
-        Bundle bundle = intent.getExtras();  
-        // 设置标题栏名称  
-        String categoryName = bundle.getString("categoryName");  
+
         TextView titleBarTitle = (TextView) findViewById(R.id.newsdetails_titlebar_title);  
         titleBarTitle.setText(categoryName);  
-        // 获取新闻集合  
-        Serializable s = bundle.getSerializable("newsData");  
-        mNewsData = (ArrayList<HashMap<String, Object>>) s;  
-        // 获取点击位置  
-         mPosition = bundle.getInt("position");  
-  
-          
+
+
+         
+        tabBack=(ImageButton) findViewById(R.id.tap_back);
+        tabBack.setOnClickListener(this);
         detailViewPager=(ViewPager) findViewById(R.id.news_body_pager);  
         detailPagerAdapter=new DetailPagerAdapter(getSupportFragmentManager(),this, mNewsData);  
         detailViewPager.setAdapter(detailPagerAdapter);  
@@ -116,7 +116,8 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
             @Override  
             public void onPageSelected(int position) {  
                 mPosition=position;  
-                  
+                mNid=(int) mNewsData.get(mPosition).get("nid");
+                mNewsdetailsTitlebarComm.setText(mNewsData.get(mPosition).get("newslist_item_comments") + "跟帖");
             }  
               
             @Override  
@@ -144,6 +145,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
         // 新闻回复条数Button  
         mNewsdetailsTitlebarComm = (Button) headView.findViewById(R.id.newsdetails_titlebar_comments);  
         mNewsdetailsTitlebarComm.setOnClickListener(this);  
+        mNewsdetailsTitlebarComm.setText(mNewsData.get(mPosition).get("newslist_item_comments") + "跟帖");
         ActionBar actionBar = getSupportActionBar();  
         actionBar.setCustomView(headView);  
         actionBar.setDisplayShowCustomEnabled(true);  
@@ -207,21 +209,19 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
             mNewsReplyEditLayout.setVisibility(View.GONE);  
             m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);  
             break;  
-        case R.id.news_reply_delete:  
-            // 设置新闻回复Layout是否可见  
-            mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
-            mNewsReplyEditLayout.setVisibility(View.GONE);  
-            InputMethodManager im = (InputMethodManager) mNewsReplyContent.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);  
-            im.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);//隐藏输入键盘  
-            keyboardShow=false;  
-            break;  
+
         case R.id.news_share_btn:  
             //设置分享新闻  
-               Intent intent2=new Intent(Intent.ACTION_SEND);    
-               intent2.setType("image/*");    
-               intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);    
-               intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);    
-               startActivity(Intent.createChooser(intent2, getTitle()));    
+           Intent intent2=new Intent(Intent.ACTION_SEND);    
+           intent2.setType("image/*");    
+           intent2.putExtra(Intent.EXTRA_TEXT,"来自展鸿新闻客户端："+ newslist_item_title);    
+           intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);    
+           startActivity(Intent.createChooser(intent2, getTitle()));  
+           break;
+        case R.id.tap_back:
+        	mNewsReplyImgLayout.setVisibility(View.VISIBLE);
+        	mNewsReplyEditLayout.setVisibility(View.GONE);
+        	break;
         }  
     }  
       

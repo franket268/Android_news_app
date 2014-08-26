@@ -1,27 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
- <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@drawable/main_background"
-    android:layout_marginBottom="0.0dip"
-    >
-
-     
-    <ViewFlipper 
-        android:id="@+id/news_body_flipper"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_marginTop="-12.0dip"
-        android:layout_marginBottom="40.0dip"
-     />
-    
-  <include
-		android:id="@+id/comments_reply_frame"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:layout_alignParentBottom="true"
-		layout="@layout/reply_frame" />
-    
- </RelativeLayout>
+<?xml version="1.0" encoding="UTF-8"?>  
+ <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"  
+    android:layout_width="fill_parent"  
+    android:layout_height="fill_parent"  
+    android:background="@drawable/main_background"  
+    android:layout_marginBottom="0.0dip"  
+    >  
+  
+       
+    <android.support.v4.view.ViewPager  
+        android:id="@+id/news_body_pager"  
+        android:layout_width="fill_parent"  
+        android:layout_height="fill_parent"  
+        android:layout_marginTop="-12.0dip"  
+        android:layout_marginBottom="40.0dip"  
+     />  
+      
+  <include  
+        android:id="@+id/comments_reply_frame"  
+        android:layout_width="fill_parent"  
+        android:layout_height="wrap_content"  
+        android:layout_alignParentBottom="true"  
+        layout="@layout/reply_frame" />  
+      
+ </RelativeLayout> 
     
  
