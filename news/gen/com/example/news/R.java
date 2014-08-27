@@ -724,6 +724,8 @@ containing a value of this type.
         public static final int abs__split_action_bar_is_narrow=0x7f060001;
     }
     public static final class color {
+        public static final int DarkGray=0x7f070036;
+        public static final int DimGray=0x7f070035;
         public static final int abs__background_holo_dark=0x7f070000;
         public static final int abs__background_holo_light=0x7f070001;
         public static final int abs__bright_foreground_disabled_holo_dark=0x7f070004;
@@ -733,14 +735,62 @@ containing a value of this type.
         public static final int abs__bright_foreground_inverse_holo_dark=0x7f070006;
         public static final int abs__bright_foreground_inverse_holo_light=0x7f070007;
         public static final int abs__holo_blue_light=0x7f070008;
-        public static final int abs__primary_text_disable_only_holo_dark=0x7f07000b;
-        public static final int abs__primary_text_disable_only_holo_light=0x7f07000c;
-        public static final int abs__primary_text_holo_dark=0x7f07000d;
-        public static final int abs__primary_text_holo_light=0x7f07000e;
-        public static final int category_item_title_selector=0x7f07000f;
+        public static final int abs__primary_text_disable_only_holo_dark=0x7f07003b;
+        public static final int abs__primary_text_disable_only_holo_light=0x7f07003c;
+        public static final int abs__primary_text_holo_dark=0x7f07003d;
+        public static final int abs__primary_text_holo_light=0x7f07003e;
+        public static final int bg_dark_gray=0x7f070010;
+        public static final int bg_gray=0x7f07002d;
+        public static final int bg_light_gray=0x7f07000f;
+        public static final int black=0x7f07001e;
+        public static final int black_transparent_10=0x7f070020;
+        public static final int black_transparent_half=0x7f07001f;
+        public static final int blue=0x7f07002b;
+        public static final int border_down=0x7f070026;
+        public static final int border_up=0x7f070027;
+        public static final int btnColor=0x7f070019;
+        public static final int call_view_dark_gray=0x7f070013;
+        public static final int call_view_light_gray=0x7f070012;
+        public static final int category_item_title_selector=0x7f07003f;
         public static final int category_title_normal_background=0x7f07000a;
-        public static final int loadmore_btn_selector=0x7f070010;
+        public static final int confChairManColor=0x7f070023;
+        public static final int conferenceInfoColor=0x7f070031;
+        public static final int editColor=0x7f070018;
+        public static final int edit_hint_color=0x7f070015;
+        public static final int gray=0x7f070021;
+        public static final int green=0x7f07002c;
+        public static final int letter=0x7f07002e;
+        public static final int lightblue=0x7f070025;
+        public static final int listMarkTextColor=0x7f070024;
+        public static final int listTextColor=0x7f070022;
+        public static final int loadmore_btn_selector=0x7f070040;
+        /**  通用颜色 
+         */
+        public static final int main_red=0x7f07000b;
+        public static final int main_title_color=0x7f07000d;
+        public static final int member_count_color=0x7f070014;
+        public static final int nameSignal=0x7f070033;
+        public static final int path_color=0x7f070037;
+        public static final int red=0x7f07003a;
+        public static final int sendbtn_able=0x7f070017;
+        public static final int sendbtn_disable=0x7f070016;
+        public static final int settingBgColor=0x7f070034;
+        public static final int settingMsgBg=0x7f070028;
+        public static final int sub_title_color=0x7f07000e;
+        public static final int text_color=0x7f070038;
+        public static final int text_gray=0x7f070029;
+        public static final int time=0x7f070030;
+        public static final int title_dark_gray=0x7f070011;
+        public static final int transparent=0x7f07002a;
+        public static final int transparent_background=0x7f070039;
+        public static final int vcardColor=0x7f070032;
+        public static final int warn_tips_color=0x7f07000c;
+        public static final int warning=0x7f07002f;
         public static final int white=0x7f070009;
+        public static final int white_no_transparent_80=0x7f07001d;
+        public static final int white_transparent_10=0x7f07001c;
+        public static final int white_transparent_80=0x7f07001b;
+        public static final int white_transparent_half=0x7f07001a;
     }
     public static final class dimen {
         /**  Default height of an action bar. 
@@ -984,7 +1034,7 @@ containing a value of this type.
         public static final int icon=0x7f02007b;
         public static final int list_selected_background=0x7f02007c;
         public static final int list_separator_line=0x7f02007d;
-        public static final int main_background=0x7f0200a5;
+        public static final int main_background=0x7f0200a6;
         public static final int news_collect_btn=0x7f02007e;
         public static final int news_collect_btn_press=0x7f02007f;
         public static final int news_collect_btn_selector=0x7f020080;
@@ -1008,7 +1058,7 @@ containing a value of this type.
         public static final int newsdetails_titlebar_btn_refresh=0x7f020092;
         public static final int newsdetails_titlebar_btn_refresh_selected=0x7f020093;
         public static final int newsdetails_titlebar_comments_background=0x7f020094;
-        public static final int newslist_item_background=0x7f0200a6;
+        public static final int newslist_item_background=0x7f0200a7;
         public static final int newslist_item_go_detail=0x7f020095;
         public static final int newslist_item_go_detail_selected=0x7f020096;
         public static final int newslist_item_go_detail_selector=0x7f020097;
@@ -1018,13 +1068,14 @@ containing a value of this type.
         public static final int search_btn=0x7f02009b;
         public static final int search_btn_over=0x7f02009c;
         public static final int search_imgbtn_click=0x7f02009d;
-        public static final int title_bg=0x7f02009e;
-        public static final int titlebar_background=0x7f02009f;
-        public static final int titlebar_btn_refresh_selector=0x7f0200a0;
-        public static final int titlebar_button_reflash=0x7f0200a1;
-        public static final int titlebar_button_reflash_selected=0x7f0200a2;
-        public static final int titlebar_button_refresh=0x7f0200a3;
-        public static final int titlebar_button_refresh_selected=0x7f0200a4;
+        public static final int tab_back=0x7f02009e;
+        public static final int title_bg=0x7f02009f;
+        public static final int titlebar_background=0x7f0200a0;
+        public static final int titlebar_btn_refresh_selector=0x7f0200a1;
+        public static final int titlebar_button_reflash=0x7f0200a2;
+        public static final int titlebar_button_reflash_selected=0x7f0200a3;
+        public static final int titlebar_button_refresh=0x7f0200a4;
+        public static final int titlebar_button_refresh_selected=0x7f0200a5;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f050022;
@@ -1079,7 +1130,6 @@ containing a value of this type.
         public static final int comments_layout=0x7f05003c;
         public static final int comments_list=0x7f05003d;
         public static final int comments_reply_frame=0x7f05003e;
-        public static final int comments_titlebar_layout=0x7f050069;
         public static final int comments_titlebar_news=0x7f05003b;
         public static final int comments_titlebar_title=0x7f05003a;
         public static final int content_layout=0x7f050055;
@@ -1098,8 +1148,8 @@ containing a value of this type.
         public static final int loadnews_progress=0x7f05004c;
         public static final int main_layout=0x7f050033;
         public static final int main_viewPager=0x7f050038;
-        public static final int menu_item_update=0x7f050072;
-        public static final int menu_settings=0x7f050071;
+        public static final int menu_item_update=0x7f050071;
+        public static final int menu_settings=0x7f050070;
         public static final int newsList=0x7f050059;
         public static final int news_body_layout=0x7f050050;
         public static final int news_body_pager=0x7f05005a;
@@ -1125,12 +1175,12 @@ containing a value of this type.
         public static final int newslist_item_title=0x7f05005d;
         public static final int normal=0x7f050001;
         public static final int progressBar=0x7f050058;
-        public static final int searchL1=0x7f05006b;
-        public static final int searchL2=0x7f05006c;
-        public static final int search_Keywords=0x7f05006d;
-        public static final int search_button=0x7f05006e;
-        public static final int search_goback=0x7f05006a;
-        public static final int searchlist=0x7f05006f;
+        public static final int searchL1=0x7f050069;
+        public static final int searchL2=0x7f05006a;
+        public static final int search_Keywords=0x7f05006b;
+        public static final int search_button=0x7f05006c;
+        public static final int search_goback=0x7f05006e;
+        public static final int searchlist=0x7f05006d;
         public static final int showCustom=0x7f050008;
         public static final int showHome=0x7f050005;
         public static final int showTitle=0x7f050007;
@@ -1139,7 +1189,7 @@ containing a value of this type.
         public static final int titlebar_refresh=0x7f05004d;
         public static final int titlebar_search=0x7f05004f;
         public static final int titlebar_title=0x7f05004e;
-        public static final int update_progress=0x7f050070;
+        public static final int update_progress=0x7f05006f;
         public static final int useLogo=0x7f050004;
         public static final int wrap_content=0x7f050000;
     }
@@ -1186,9 +1236,10 @@ containing a value of this type.
         public static final int newslist_item=0x7f030024;
         public static final int reply_frame=0x7f030025;
         public static final int search=0x7f030026;
-        public static final int sherlock_spinner_dropdown_item=0x7f030027;
-        public static final int sherlock_spinner_item=0x7f030028;
-        public static final int softupdate_progress=0x7f030029;
+        public static final int search_actionbar=0x7f030027;
+        public static final int sherlock_spinner_dropdown_item=0x7f030028;
+        public static final int sherlock_spinner_item=0x7f030029;
+        public static final int softupdate_progress=0x7f03002a;
     }
     public static final class menu {
         public static final int activity_main=0x7f0d0000;

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
@@ -31,32 +33,45 @@ import com.example.service.NewsManager;
 
 public class NewsDetailsActivity extends SherlockFragmentActivity implements OnClickListener  
 {  
-    private final int FINISH = 0;  
-    private ViewFlipper mNewsBodyFlipper;  
-    private LayoutInflater mNewsBodyInflater;  
-    private float mStartX;  
     private ArrayList<HashMap<String, Object>> mNewsData;  
     private int mPosition ;  
-    private int mCursor;  
     private int mNid;  
     private String newslist_item_title;  //新闻标题  
-    private String newslist_item_digest;//新闻摘要  
-    private CustomTextView mNewsDetails;  
     private Button mNewsdetailsTitlebarComm;// 新闻回复数  
     private ImageButton mNewsReplyImgBtn;// 发表新闻回复图片  
     private LinearLayout mNewsReplyImgLayout;// 发表新闻回复图片Layout  
     private RelativeLayout mNewsReplyEditLayout;// 发表新闻回复回复Layout  
     private TextView mNewsReplyContent;// 新闻回复内容  
-    private Button canclebtn;//发表取消键  
     private String region="广东网友";//定位所在地方，默认是广东  
     private String categoryName;
-    private Boolean keyboardShow=false;  
     private ImageButton share;//分享按钮  
     private NewsManager mNewsManager;  
+    private final int POST_COMMENT_ERROR=2;  
+    private final int POST_COMMENT_SUCCESS=3;  
   
     private ViewPager detailViewPager;  
     private DetailPagerAdapter detailPagerAdapter;  
     private ImageButton tabBack;
+    
+    private Handler mHandler = new Handler(){  
+        @Override  
+        public void handleMessage(Message msg)  
+        {  
+              
+            switch (msg.arg1)  
+            {  
+                case POST_COMMENT_ERROR:  
+                    Toast.makeText(NewsDetailsActivity.this, "发表失败", Toast.LENGTH_SHORT).show();  
+                    break;  
+                case POST_COMMENT_SUCCESS:  
+                    Toast.makeText(NewsDetailsActivity.this, "发表成功", Toast.LENGTH_SHORT).show();  
+                    break;  
+                default:  
+                    break;  
+                  
+            }  
+        }  
+    };  
   
     @Override  
     public void onCreate(Bundle savedInstanceState)  
@@ -200,11 +215,10 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
             mNewsReplyEditLayout.setVisibility(View.VISIBLE);  
             mNewsReplyContent.requestFocus();  //使输入框聚焦  
             m.toggleSoftInput(0, InputMethodManager.SHOW_IMPLICIT);  
-            keyboardShow=true;  
             break;  
         // 发表新闻回复  
         case R.id.news_reply_post:  
-            mNewsReplyEditLayout.post(new PostCommentThread());  
+            new PostCommentThread().start();  
             mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
             mNewsReplyEditLayout.setVisibility(View.GONE);  
             m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);  
@@ -234,15 +248,15 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
         public void run()  
         {   
             int retCode=mNewsManager.postComment(mNid, region,  mNewsReplyContent.getText().toString());  
-            if (0 == retCode)  
-            {  
-                Toast.makeText(NewsDetailsActivity.this, "评论成功", Toast.LENGTH_SHORT).show();  
-                mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
-                mNewsReplyEditLayout.setVisibility(View.GONE);  
-                return;  
+            Message msg = mHandler.obtainMessage();  
+            if(retCode==0){               
+                msg.arg1 = POST_COMMENT_SUCCESS;  
+                  
             }  
-  
-            Toast.makeText(NewsDetailsActivity.this,"评论失败", Toast.LENGTH_SHORT).show();  
+            else{  
+                msg.arg1=POST_COMMENT_ERROR;  
+            }  
+            mHandler.sendMessage(msg);  
         }  
     }  
   

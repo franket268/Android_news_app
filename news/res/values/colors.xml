@@ -4,4 +4,56 @@
     <item type="drawable" name="newslist_item_background">#FFE7E7E7</item>
     <item type="color" name="white">#FFFFFFFF</item>
     <item type="color" name="category_title_normal_background">#FFADB2AD</item>
+     
+     <!-- 通用颜色 -->
+    <color name="main_red">#A00000</color>
+    <color name="warn_tips_color">#E00000</color>
+    <color name="main_title_color">#333333</color>
+    <color name="sub_title_color">#666666</color>
+    <color name="bg_light_gray">#F1F1F1</color>
+    <color name="bg_dark_gray">#CCCCCC</color>
+    <color name="title_dark_gray">#a2a2a2</color>
+    <color name="call_view_light_gray">#969696</color>
+    <color name="call_view_dark_gray">#505050</color>
+    <color name="member_count_color">#ff777777</color>
+    <color name="edit_hint_color">#999999</color>
+        <color name="sendbtn_disable">#989494</color>
+    <color name="sendbtn_able">#000000</color>
+    <color name="editColor">#888888</color>
+    <color name="btnColor">#ffffffff</color>
+    <color name="white_transparent_half">#7effffff</color>
+    <color name="white_transparent_80">#33ffffff</color>
+    <color name="white_transparent_10">#19ffffff</color>
+    <color name="white_no_transparent_80">#ccffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="black_transparent_half">#7e000000</color>
+    <color name="black_transparent_10">#1a000000</color>
+    <color name="gray">#a7a7a7</color>
+    <color name="listTextColor">#ff000000</color>
+    <color name="confChairManColor">#28A7E1</color>
+    <color name="listMarkTextColor">#989494</color>
+    <color name="lightblue">#87CEFA</color>
+    <color name="border_down">#55ffffff</color>
+    <color name="border_up">#00ffffff</color>
+    <color name="settingMsgBg">#ffffffff</color>
+    <color name="text_gray">#ffffffff</color>
+    <color name="transparent">#00000000</color>
+    <color name="blue">#358DDC</color>
+    <color name="green">#00BB00</color>
+    <color name="bg_gray">#EFF3F7</color>
+    <color name="letter">#a7a7a7</color>
+    <color name="warning">#ab4c2a</color>
+    <color name="time">#FFFFF0</color>
+    <color name="conferenceInfoColor">#444444</color>
+    <color name="vcardColor">#545454</color>
+    <color name="nameSignal">#989494</color>
+    <color name="settingBgColor">#ffffff</color>
+    <color name="DimGray">#696969</color>
+    <color name="DarkGray">#444444</color>
+    <color name="path_color">#b9b9b9</color>
+    <color name="text_color">#ff414141</color>
+    <color name="transparent_background">#664A4A4A</color>
+    <color name="red">#ff0000</color>    
+    
+
 </resources>

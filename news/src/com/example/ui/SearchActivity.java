@@ -24,43 +24,47 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.example.news.R;
+import com.example.service.NewsManager;
 import com.example.service.SyncHttp;
 
-public class SearchActivity extends Activity {
+public class SearchActivity extends Activity implements OnClickListener {
 	private ListView mNewsList;
 	private SimpleAdapter mNewsListAdapter;
 	private ArrayList<HashMap<String, Object>> mNewsData;
 	private LayoutInflater mInflater;
-	private final int SUCCESS = 0;//���سɹ�
-	private final int NONEWS = 1;//����Ŀ��û������
-	private final int NOMORENEWS = 2;//����Ŀ��û�и������
-	private final int LOADERROR = 3;//����ʧ��
+	private final int SUCCESS = 0;//加载成功
+	private final int NOMORENEWS = 2;//
+	private final int LOADERROR = 3;//加载失败
 	private EditText keywordText;
 	private String keyword=null;
 	private ImageButton search_button;
+	private Button goback_button;
 	private LoadNewsAsyncTask loadNewsAsyncTask;
+	private NewsManager mNewsManager;  
 	
 	public void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
-		
+		mNewsManager=new NewsManager();
+	}
+	
+	public void initView(){	
+		initActionBar();
 		keywordText=(EditText)findViewById(R.id.search_Keywords);
 		mNewsList=(ListView)findViewById(R.id.searchlist);
 		
-		Button goback_button=(Button)findViewById(R.id.search_goback);
-		goback_button.setOnClickListener(ButtonListener);
+
 		
 		search_button=(ImageButton)findViewById(R.id.search_button);
-		search_button.setOnClickListener(ButtonListener);
+		search_button.setOnClickListener(this);
 		
 		mNewsData = new ArrayList<HashMap<String,Object>>();
 		
 		mNewsListAdapter = new SimpleAdapter(this, mNewsData, R.layout.newslist_item, 
 				new String[]{"newslist_item_title","newslist_item_digest","newslist_item_source","newslist_item_ptime"}, 
 				new int[]{R.id.newslist_item_title,R.id.newslist_item_digest,R.id.newslist_item_source,R.id.newslist_item_ptime});
-  //      View loadMoreLayout = mInflater.inflate(R.layout.loadmore, null);
- //       mNewsList.addFooterView(loadMoreLayout);
+
         mNewsList.setAdapter(mNewsListAdapter);
         mNewsList.setOnItemClickListener(new OnItemClickListener()
         {
@@ -68,108 +72,43 @@ public class SearchActivity extends Activity {
          public void onItemClick(AdapterView<?> parent, View view, int position, long id)
          {
           Intent intent = new Intent(SearchActivity.this, NewsDetailsActivity.class);
-          //����Ҫ����Ϣ�ŵ�Intent��
-          intent.putExtra("newsData", mNewsData);//��������������ͷ����ȥ
+          //把需要的信息放到Intent中
+          intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
           intent.putExtra("position", position);
-          intent.putExtra("categoryName", "����");
+          intent.putExtra("categoryName", "搜索");
           startActivity(intent);
          }
         });
         
 	}   
-        
-        /**
-		 * ��ȡ���������б�
-		
-		 * @param newsList ����������Ϣ�ļ���
-		 * @param startnid ��ҳ
-		 * @param firstTimes	�Ƿ��һ�μ���
-		 */
-        
-	private int getSearchNews(List<HashMap<String, Object>> newsList,String key)
-		{
-            //���������֮ǰ�ѵĵĽ��
-	     	newsList.clear();
-			//����URL���ַ�
-			String url = "http://54.186.248.222:8080/web/getSearch";
-			String params = "keyword="+key;
-			SyncHttp syncHttp = new SyncHttp();
-			try
-			{
-				//��Get��ʽ���󣬲���÷��ؽ��
-				
-				String retStr = syncHttp.httpGet(url, params);
-				JSONObject jsonObject = new JSONObject(retStr);
-				//��ȡ�����룬0��ʾ�ɹ�
-				int retCode = jsonObject.getInt("ret");
-				
-				if (0==retCode)
-				{
-					JSONObject dataObject = jsonObject.getJSONObject("data");
-					//��ȡ������Ŀ
-					int totalnum = dataObject.getInt("totalnum");
-					System.out.println(totalnum);
-					if (totalnum>0)
-					{
-						//��ȡ�������ż���
-						JSONArray newslist = dataObject.getJSONArray("newslist");
-						for(int i=0;i<newslist.length();i++)
-						{
-							JSONObject newsObject = (JSONObject)newslist.opt(i); 
-							HashMap<String, Object> hashMap = new HashMap<String, Object>();
-							hashMap.put("nid", newsObject.getInt("nid"));
-							hashMap.put("newslist_item_title", newsObject.getString("title"));
-							hashMap.put("newslist_item_digest", newsObject.getString("digest"));
-							hashMap.put("newslist_item_source", newsObject.getString("source"));
-							hashMap.put("newslist_item_ptime", newsObject.getString("ptime"));
-							hashMap.put("newslist_item_comments", newsObject.getString("commentcount"));
-							newsList.add(hashMap);
-						}
-						return SUCCESS;
-					}
-					else
-					{
-						System.out.println(key);
-						
-				     	return NOMORENEWS;
-						
-					}
-				}
-				else
-				{
-					return LOADERROR;
-				}
-			} catch (Exception e)
-			{
-				e.printStackTrace();
-				return LOADERROR;
-			}
-		}
-		
 	
-	private OnClickListener ButtonListener = new OnClickListener()
+	public void initActionBar(){
+		View headView = LayoutInflater.from(this).inflate(R.layout.main_action_bar, null);
+		 goback_button=(Button)headView.findViewById(R.id.search_goback);
+		 goback_button.setOnClickListener(this);
+	}
+        
+     
+
+	@Override
+	public void onClick(View v)
 	{
-		@Override
-		public void onClick(View v)
+		switch (v.getId())
 		{
+
+		case R.id.search_button:
+			keyword=keywordText.getText().toString();
 			loadNewsAsyncTask = new LoadNewsAsyncTask();
-			switch (v.getId())
-			{
-
-
-			case R.id.search_button:
-				keyword=keywordText.getText().toString();
-				loadNewsAsyncTask = new LoadNewsAsyncTask();
-				loadNewsAsyncTask.execute(keyword);
-				break;
-				
-			case R.id.search_goback:
-				finish();
-				break;
-			}
+			loadNewsAsyncTask.execute(keyword);
+			break;
 			
+		case R.id.search_goback:
+			finish();
+			break;
 		}
-	};
+		
+	}
+
 	
 	
 	private class LoadNewsAsyncTask extends AsyncTask<Object, Integer, Integer>
@@ -178,40 +117,36 @@ public class SearchActivity extends Activity {
 		@Override
 		protected void onPreExecute()
 		{
-
 		}
 
 		@Override
-		//Object... params����˵������������Object���͵Ĳ���Ҳ����˵���Դ���0�����Object�������Ķ������������
+		//Object... params就是说可以有任意多个Object类型的参数，也就是说可以传递0到多个Object类或子类的对象到这个方法。
 		protected Integer doInBackground(Object... params)
 		{
-			return getSearchNews(mNewsData,(String)params[0]);
+			return mNewsManager.getSearchNews(mNewsData,(String)params[0]);
 		}
 
 		@Override
 		
-		//result�Ƿ���doInBackground(Object... params)���ص�ֵ
+		//result是方法doInBackground(Object... params)返回的值
 		protected void onPostExecute(Integer result)
 		{
 			switch (result)
 			{
 
 			case NOMORENEWS:
-				Toast.makeText(SearchActivity.this, "û���ѵ��������", Toast.LENGTH_LONG).show();
+				Toast.makeText(SearchActivity.this, "没有搜到相关新闻", Toast.LENGTH_LONG).show();
 				break;
 			case LOADERROR:
-				Toast.makeText(SearchActivity.this, "���ż���ʧ��", Toast.LENGTH_LONG).show();
+				Toast.makeText(SearchActivity.this, "新闻加载失败", Toast.LENGTH_LONG).show();
 				break;
 			}
 			
-			//���Ѹ�������
+			//提醒更新新闻
 			mNewsListAdapter.notifyDataSetChanged();
 		}
 	}
 		
-		
-		
-		
-		
+	
 }
 

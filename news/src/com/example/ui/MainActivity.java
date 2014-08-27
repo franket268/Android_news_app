@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -40,6 +42,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private List<Fragment> fragments=new ArrayList<Fragment>();
 	private ViewHolder holder;
 	private GridView category;
+
 		
 		
 	@Override
@@ -170,6 +173,15 @@ public class MainActivity extends SherlockFragmentActivity {
 			holder=new ViewHolder();
 			holder.titlebarRefresh = (Button)headView.findViewById(R.id.titlebar_refresh);
 			holder.loadnewsProgress = (ProgressBar)headView.findViewById(R.id.loadnews_progress);
+			holder.searchButton=(Button) headView.findViewById(R.id.titlebar_search);
+			holder.searchButton.setOnClickListener(new OnClickListener() {			
+				@Override
+				public void onClick(View v) {
+					Intent intent=new Intent(MainActivity.this,SearchActivity.class);
+					startActivity(intent);
+					
+				}
+			});
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setCustomView(headView);
 			actionBar.setDisplayShowCustomEnabled(true);
@@ -182,6 +194,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		public class ViewHolder{
 			public  Button titlebarRefresh;
 			public ProgressBar loadnewsProgress;
+			private Button searchButton;
 		}
 		
 		public ViewHolder getViewHolder(){

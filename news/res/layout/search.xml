@@ -6,32 +6,7 @@
 	android:background="@drawable/main_background"
 	android:orientation="vertical"
 	>
-	<RelativeLayout
-		android:id="@+id/comments_titlebar_layout"
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content"
-		android:background="@drawable/titlebar_background"
-		android:layout_alignParentTop="true">
-		<Button 
-		    android:id="@+id/search_goback"
-		    android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:background="@drawable/goback"
-			android:layout_marginLeft="10.0dip"
-			android:layout_marginTop="8.0dip" 
-		    
-		    />
-		<TextView
-			android:id="@+id/comments_titlebar_title"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginLeft="130.0dip"
-			android:layout_marginTop="12.0dip" 
-			android:textSize="20.0sp"
-			android:textColor="@color/white"
-			android:text="搜索"
-			/>
-	</RelativeLayout>
+
 	<LinearLayout
         android:id="@+id/searchL1"
         android:layout_width="fill_parent"
@@ -50,6 +25,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="34dp"
                 android:layout_gravity="center_vertical"
+                android:textColor="@color/black"
                 android:layout_weight="0.54"
                 android:background="@drawable/edittext"
                 android:ellipsize="end"
@@ -65,7 +41,7 @@
         <ImageButton
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
-            android:layout_height="31dp"
+            android:layout_height="34dp"
             android:layout_marginRight="5dp"
             android:background="@drawable/search_imgbtn_click"
             android:scaleType="fitCenter" />

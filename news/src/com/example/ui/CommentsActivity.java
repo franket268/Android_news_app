@@ -96,7 +96,7 @@ public class CommentsActivity extends SherlockFragmentActivity implements OnClic
         new GetCommentThread().start();  
           
          commentsAdapter = new SimpleAdapter(this, mCommsData, R.layout.comments_list_item, new String[]  
-        { "commentator_from"+"网友", "comment_ptime", "comment_content" }, new int[]  
+        { "commentator_from", "comment_ptime", "comment_content" }, new int[]  
         { R.id.commentator_from, R.id.comment_ptime, R.id.comment_content });  
   
         commentsList = (ListView) findViewById(R.id.comments_list);  
@@ -164,7 +164,7 @@ public class CommentsActivity extends SherlockFragmentActivity implements OnClic
             break;  
         // 发表新闻回复  
         case R.id.news_reply_post:  
-            mNewsReplyEditLayout.post(new PostCommentThread());  
+            new PostCommentThread().start();  
             mNewsReplyImgLayout.setVisibility(View.VISIBLE);  
             mNewsReplyEditLayout.setVisibility(View.GONE);  
             m.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);  

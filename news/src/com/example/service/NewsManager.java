@@ -149,7 +149,7 @@ public class NewsManager {
 		List<Parameter> params = new ArrayList<Parameter>();
 		int retCode=-1;
 		params.add(new Parameter("nid","11"));
-		params.add(new Parameter("region","lala"));
+		params.add(new Parameter("region",region));
 		params.add(new Parameter("content", "haha"));
 		try
 		{
@@ -175,47 +175,116 @@ public class NewsManager {
 	
 	public int getComments(int nid,List<HashMap<String,Object>> mCommsData)
 	{
-	//请求URL和字符串
-	String url = "http://54.187.183.108:8080/web/getComments";
-	String params ="nid="+nid+"&startnid=0&count=10";
-	SyncHttp syncHttp = new SyncHttp();
-	int retCode =-1;
-	try
-	{
-		//以Get方式请求，并获得返回结果
-		String retStr = syncHttp.httpGet(url, params);
-		JSONObject jsonObject = new JSONObject(retStr);
-		//获取返回码，0表示成功
-	    retCode = jsonObject.getInt("ret");
-		if (0==retCode)
+		//请求URL和字符串
+		String url = "http://54.187.183.108:8080/web/getComments";
+		String params ="nid="+nid+"&startnid=0&count=10";
+		SyncHttp syncHttp = new SyncHttp();
+		int retCode =-1;
+		try
 		{
-			JSONObject dataObject = jsonObject.getJSONObject("data");
-			//获取返回数目
-			int totalnum = dataObject.getInt("totalnum");
-			if (totalnum>0)
+			//以Get方式请求，并获得返回结果
+			String retStr = syncHttp.httpGet(url, params);
+			JSONObject jsonObject = new JSONObject(retStr);
+			//获取返回码，0表示成功
+		    retCode = jsonObject.getInt("ret");
+			if (0==retCode)
 			{
-				//获取返回新闻集合
-				JSONArray newslist = dataObject.getJSONArray("commentslist");
-				for(int i=0;i<newslist.length();i++)
+				JSONObject dataObject = jsonObject.getJSONObject("data");
+				//获取返回数目
+				int totalnum = dataObject.getInt("totalnum");
+				if (totalnum>0)
 				{
-					JSONObject newsObject = (JSONObject)newslist.opt(i); 
-					HashMap<String, Object> hashMap = new HashMap<String, Object>();
-					hashMap.put("comid", newsObject.getInt("comid"));
-					hashMap.put("commentator_from", newsObject.getString("region"));
-					hashMap.put("comment_ptime", newsObject.getString("ptime"));
-					hashMap.put("comment_content", newsObject.getString("content"));
-					mCommsData.add(hashMap);
+					//获取返回新闻集合
+					JSONArray newslist = dataObject.getJSONArray("commentslist");
+					for(int i=0;i<newslist.length();i++)
+					{
+						JSONObject newsObject = (JSONObject)newslist.opt(i); 
+						HashMap<String, Object> hashMap = new HashMap<String, Object>();
+						hashMap.put("comid", newsObject.getInt("comid"));
+						hashMap.put("commentator_from", newsObject.getString("region"));
+						hashMap.put("comment_ptime", newsObject.getString("ptime"));
+						hashMap.put("comment_content", newsObject.getString("content"));
+						mCommsData.add(hashMap);
+					}
+				}
+	
+			}
+	
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			
+		}
+		return retCode;
+	}
+	
+	
+    /**
+	 * 获取搜索新闻列表
+	
+	 * @param newsList 保存新闻信息的集合
+	 * @param key 搜索内容
+	 * 
+	 */
+    
+	public int getSearchNews(List<HashMap<String, Object>> newsList,String key)
+	{
+        //清屏，清楚之前搜的的结果
+     	newsList.clear();
+		//请求URL和字符串
+		String url = "http://54.187.183.108:8080/web/getSearch";
+		String params = "keyword="+key;
+		SyncHttp syncHttp = new SyncHttp();
+		try
+		{
+			//以Get方式请求，并获得返回结果
+			
+			String retStr = syncHttp.httpGet(url, params);
+			JSONObject jsonObject = new JSONObject(retStr);
+			//获取返回码，0表示成功
+			int retCode = jsonObject.getInt("ret");
+			
+			if (0==retCode)
+			{
+				JSONObject dataObject = jsonObject.getJSONObject("data");
+				//获取返回数目
+				int totalnum = dataObject.getInt("totalnum");
+				System.out.println(totalnum);
+				if (totalnum>0)
+				{
+					//获取返回新闻集合
+					JSONArray newslist = dataObject.getJSONArray("newslist");
+					for(int i=0;i<newslist.length();i++)
+					{
+						JSONObject newsObject = (JSONObject)newslist.opt(i); 
+						HashMap<String, Object> hashMap = new HashMap<String, Object>();
+						hashMap.put("nid", newsObject.getInt("nid"));
+						hashMap.put("newslist_item_title", newsObject.getString("title"));
+						hashMap.put("newslist_item_digest", newsObject.getString("digest"));
+						hashMap.put("newslist_item_source", newsObject.getString("source"));
+						hashMap.put("newslist_item_ptime", newsObject.getString("ptime"));
+						hashMap.put("newslist_item_comments", newsObject.getString("commentcount"));
+						newsList.add(hashMap);
+					}
+					return SUCCESS;
+				}
+				else
+				{
+					System.out.println(key);
+					
+			     	return NOMORENEWS;
+					
 				}
 			}
-
+			else
+			{
+				return LOADERROR;
+			}
+		} catch (Exception e)
+		{
+			e.printStackTrace();
+			return LOADERROR;
 		}
-
-	} catch (Exception e)
-	{
-		e.printStackTrace();
-		
 	}
-	return retCode;
-}
 	
 }
