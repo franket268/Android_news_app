@@ -24,12 +24,12 @@ import com.example.ui.MainActivity;
 import com.example.ui.MainActivity.ViewHolder;
 import com.example.ui.NewsDetailsActivity;
 
-public class DomesticFragment extends Fragment implements OnClickListener{
+public class MilitaryFragment extends Fragment implements OnClickListener{
 	private ListView mFocusList;
 	private NewsManager mNewsManager;
 	private ArrayList<HashMap<String, Object>> mNewsData= new ArrayList<HashMap<String,Object>>();
 	private LoadNewsAsyncTask asyncTask=new LoadNewsAsyncTask();
-	private final int CATEGORY_TYPE = 2;
+	private final int CATEGORY_TYPE = 4;
 	private SimpleAdapter mNewsListAdapter;
 	private Button mLoadMoreBtn;
 	private ViewHolder mHolder;
@@ -100,7 +100,7 @@ public class DomesticFragment extends Fragment implements OnClickListener{
 				//把需要的信息放到Intent中
 				intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
 				intent.putExtra("position", position);
-				intent.putExtra("categoryName", getActivity().getResources().getString(R.string.domestic));
+				intent.putExtra("categoryName", getActivity().getResources().getString(R.string.military));
 				startActivity(intent);
 				
 			}
@@ -175,3 +175,4 @@ public class DomesticFragment extends Fragment implements OnClickListener{
 
 	
 }
+

@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,12 +40,13 @@ public class DetailNewsFragment extends Fragment{
                     ArrayList<HashMap<String,Object>> bodyList=(ArrayList<HashMap<String,Object>>)msg.obj;  
                     for (HashMap<String, Object> map : bodyList){  
                         if (map.get("type").equals("image")){  
-                            if(map.get("value").toString()!="null")  
+                            if(!map.get("value").toString().equals("null"))  
+                       
                                 ImageUtil.LoadImage(map.get("value").toString(), image, getActivity());  
                                 image.setVisibility(View.VISIBLE);  
                         }  
                         else {  
-                            newsText.setText(Html.fromHtml(map.get("value").toString()));  
+                            newsText.setText((map.get("value").toString()));  
                             newsText.setTextColor(Color.BLACK);  
                             newsText.setVisibility(View.VISIBLE);  
                         }  

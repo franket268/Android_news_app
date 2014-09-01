@@ -58,8 +58,9 @@
 
                     <ImageView
                         android:id="@+id/detail_news_image"
-                        android:layout_width="wrap_content"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
                         android:visibility="gone" />
 
                     <TextView

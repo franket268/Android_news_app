@@ -31,6 +31,9 @@ import com.example.adapter.CustomSimpleAdapter;
 import com.example.custom.Category;
 import com.example.fragment.DomesticFragment;
 import com.example.fragment.FocusFragment;
+import com.example.fragment.InternationFragment;
+import com.example.fragment.MilitaryFragment;
+import com.example.fragment.SportFragment;
 import com.example.news.R;
 import com.example.util.StringUtil;
 
@@ -38,7 +41,7 @@ public class MainActivity extends SherlockFragmentActivity {
 	private ViewPager viewPager;
 	private CatePagerAdapter pagerAdapter;
 	private final List<HashMap<String, Category>> categories = new ArrayList<HashMap<String, Category>>();
-	private Class<?>[] mClazz = {FocusFragment.class,DomesticFragment.class};
+	private Class<?>[] mClazz = {FocusFragment.class,DomesticFragment.class,InternationFragment.class,MilitaryFragment.class,SportFragment.class};
 	private List<Fragment> fragments=new ArrayList<Fragment>();
 	private ViewHolder holder;
 	private GridView category;
