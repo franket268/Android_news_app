@@ -86,7 +86,7 @@ public class MainActivity extends SherlockFragmentActivity {
 		CustomSimpleAdapter categoryAdapter = new CustomSimpleAdapter(this, categories, R.layout.category_title, new String[]{"category_title"}, new int[]{R.id.category_title});
 		
 		category = new GridView(this);
-		category.setColumnWidth(90);//每个单元格宽度
+		category.setColumnWidth(100);//每个单元格宽度
 		category.setNumColumns(GridView.AUTO_FIT);//单元格数目
 		category.setGravity(Gravity.CENTER);//设置对其方式
 		//设置单元格选择是背景色为透明，这样选择时就不现实黄色背景
@@ -113,6 +113,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				{
 					categoryTitle = (TextView) (parent.getChildAt(i));
 					categoryTitle.setTextColor(0XFFADB2AD);
+					categoryTitle.setBackgroundDrawable(null);
 				}
 				//设置选择单元格的背景色
 				categoryTitle = (TextView) (parent.getChildAt(position));
@@ -147,6 +148,7 @@ public class MainActivity extends SherlockFragmentActivity {
 				{
 				categoryTitle = (TextView) (category.getChildAt(i));
 				categoryTitle.setTextColor(0XFFADB2AD);
+				categoryTitle.setBackgroundDrawable(null);
 				}
 				//设置选择单元格的背景色
 				categoryTitle = (TextView) (category.getChildAt(position));

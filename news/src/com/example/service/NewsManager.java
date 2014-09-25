@@ -67,6 +67,7 @@ public class NewsManager {
 						hashMap.put("newslist_item_source", newsObject.getString("source"));
 						hashMap.put("newslist_item_ptime", newsObject.getString("ptime"));
 						hashMap.put("newslist_item_comments", newsObject.getString("commentcount"));
+						hashMap.put("newslist_item_imgsrc", newsObject.getString("imgsrc"));
 						newsList.add(hashMap);
 					}
 					return SUCCESS;

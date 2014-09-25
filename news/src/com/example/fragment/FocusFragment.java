@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -14,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.news.R;
@@ -23,6 +26,7 @@ import com.example.service.NewsManager;
 import com.example.ui.MainActivity;
 import com.example.ui.MainActivity.ViewHolder;
 import com.example.ui.NewsDetailsActivity;
+import com.example.util.ImageUtil;
 
 public class FocusFragment extends Fragment implements OnClickListener{
 	private ListView mFocusList;
@@ -40,7 +44,9 @@ public class FocusFragment extends Fragment implements OnClickListener{
 	private final int NOMORENEWS = 2;//该栏目下没有更多新闻
 	private final int LOADERROR = 3;//加载失败
 	private View loadMoreLayout;
-	
+	private View mHeadView;
+	private ImageView firstImage;
+//	private TextView firstText;
 	
 	
 	
@@ -51,6 +57,9 @@ public class FocusFragment extends Fragment implements OnClickListener{
 		mNewsManager=new NewsManager();
 	    loadMoreLayout = getActivity().getLayoutInflater().inflate(R.layout.loadmore, null);
 		mLoadMoreBtn=(Button) loadMoreLayout.findViewById(R.id.loadmore_btn);
+		mHeadView=getActivity().getLayoutInflater().inflate(R.layout.first_image, null);
+		firstImage=(ImageView) mHeadView.findViewById(R.id.firstImage);
+//		firstText=(TextView) mHeadView.findViewById(R.id.firstNews);
 		asyncTask.execute(CATEGORY_TYPE,0,true);
 	}
 	
@@ -86,6 +95,9 @@ public class FocusFragment extends Fragment implements OnClickListener{
 		
 		mLoadMoreBtn.setOnClickListener(this);
 		mHolder.titlebarRefresh.setOnClickListener(this);
+		
+
+		mFocusList.addHeaderView(mHeadView);
 		mFocusList.addFooterView(loadMoreLayout);
 		mNewsListAdapter = new SimpleAdapter(getActivity(), mNewsData, R.layout.newslist_item, 
 				new String[]{"newslist_item_title","newslist_item_digest","newslist_item_source","newslist_item_ptime"}, 
@@ -99,7 +111,10 @@ public class FocusFragment extends Fragment implements OnClickListener{
 				Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
 				//把需要的信息放到Intent中
 				intent.putExtra("newsData", mNewsData);//给分类的所有新闻头发过去
-				intent.putExtra("position", position);
+				if(position==0)
+					intent.putExtra("position", position);
+				else
+					intent.putExtra("position", position-1);
 				intent.putExtra("categoryName", getActivity().getResources().getString(R.string.focus));
 				startActivity(intent);
 				
@@ -161,6 +176,8 @@ public class FocusFragment extends Fragment implements OnClickListener{
 				Toast.makeText(getActivity(), "新闻加载失败", Toast.LENGTH_LONG).show();
 				break;
 			}
+		//	Log.d("tag2","src = "+mNewsData.get(0).get("newslist_item_imgsrc").toString());
+			ImageUtil.LoadImage(mNewsData.get(0).get("newslist_item_imgsrc").toString(), firstImage, getActivity());  
 			//通知ListView进行更新
 			mNewsListAdapter.notifyDataSetChanged();
 			//显示刷新按钮

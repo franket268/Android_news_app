@@ -54,7 +54,6 @@
                     android:layout_width="fill_parent" 
 					android:layout_height="fill_parent"  
 					android:layout_below="@id/digest_layout">
-
 
                     <ImageView
                         android:id="@+id/detail_news_image"

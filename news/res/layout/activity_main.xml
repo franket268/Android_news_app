@@ -27,9 +27,8 @@
 			android:id="@+id/category_scrollview"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:layout_marginLeft="6.0dip"
+			android:layout_centerHorizontal="true"
 			android:scrollbars="none"
-			android:layout_toLeftOf="@id/category_arrow_right"
 			android:layout_centerVertical="true">
 			<LinearLayout
 				android:id="@+id/category_layout"
