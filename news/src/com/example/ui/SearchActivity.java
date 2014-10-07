@@ -2,15 +2,11 @@ package com.example.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,11 +19,12 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.news.R;
 import com.example.service.NewsManager;
-import com.example.service.SyncHttp;
 
-public class SearchActivity extends Activity implements OnClickListener {
+public class SearchActivity extends SherlockFragmentActivity implements OnClickListener {
 	private ListView mNewsList;
 	private SimpleAdapter mNewsListAdapter;
 	private ArrayList<HashMap<String, Object>> mNewsData;
@@ -47,6 +44,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.search);
 		mNewsManager=new NewsManager();
+		initView();
 	}
 	
 	public void initView(){	
@@ -57,6 +55,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		
 		search_button=(ImageButton)findViewById(R.id.search_button);
+		Log.d("tag2","haha");
 		search_button.setOnClickListener(this);
 		
 		mNewsData = new ArrayList<HashMap<String,Object>>();
@@ -83,9 +82,16 @@ public class SearchActivity extends Activity implements OnClickListener {
 	}   
 	
 	public void initActionBar(){
-		View headView = LayoutInflater.from(this).inflate(R.layout.main_action_bar, null);
+		View headView = LayoutInflater.from(this).inflate(R.layout.search_actionbar, null);
 		 goback_button=(Button)headView.findViewById(R.id.search_goback);
 		 goback_button.setOnClickListener(this);
+		 ActionBar actionBar = getSupportActionBar();
+		actionBar.setCustomView(headView);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setDisplayShowHomeEnabled(false);
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
 	}
         
      
@@ -98,6 +104,7 @@ public class SearchActivity extends Activity implements OnClickListener {
 
 		case R.id.search_button:
 			keyword=keywordText.getText().toString();
+			Log.d("tag2","keyword ="+keyword);
 			loadNewsAsyncTask = new LoadNewsAsyncTask();
 			loadNewsAsyncTask.execute(keyword);
 			break;

@@ -24,16 +24,7 @@
 		    android:layout_centerVertical="true"
 		    android:background="@drawable/titlebar_btn_refresh_selector" />
 
-		<TextView
-		    android:id="@+id/titlebar_title"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignBottom="@+id/titlebar_search"
-		    android:layout_centerHorizontal="true"
-		    android:text="@string/app_name"
-		    android:textAppearance="@style/titlebar_title_style" />
-
-		<Button
+<!-- 	 <Button
 		    android:id="@+id/titlebar_search"
 		    android:layout_width="wrap_content"
 		    android:layout_height="35dp"
@@ -44,5 +35,28 @@
 		    android:text="搜 索"
 		    android:textColor="@color/white"
 		    android:textSize="14.0sp" />
+		    -->
+	
+
+	<TextView
+	    android:id="@+id/titlebar_title"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignBottom="@+id/menu_button"
+	    android:layout_centerHorizontal="true"
+	    android:text="@string/app_name"
+	    android:textAppearance="@style/titlebar_title_style" />
+
+	<ImageButton
+	    android:id="@+id/menu_button"
+	    android:layout_width="wrap_content"
+	    android:layout_height="35dp"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:layout_marginLeft="18dp"
+	    android:background="@drawable/v5_0_1_flipper_head_flip"
+	    android:textColor="@color/white"
+	    android:textSize="14.0sp" />
+	    
 
 </RelativeLayout>

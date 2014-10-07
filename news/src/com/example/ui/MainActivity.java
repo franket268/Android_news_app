@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -20,24 +19,27 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.ActionBar;
-import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.adapter.CatePagerAdapter;
 import com.example.adapter.CustomSimpleAdapter;
 import com.example.custom.Category;
 import com.example.fragment.DomesticFragment;
 import com.example.fragment.FocusFragment;
 import com.example.fragment.InternationFragment;
+import com.example.fragment.LeftBottomFragment;
 import com.example.fragment.MilitaryFragment;
 import com.example.fragment.SportFragment;
 import com.example.news.R;
 import com.example.util.StringUtil;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 
-public class MainActivity extends SherlockFragmentActivity {
+public class MainActivity extends SlidingActivity {
 	private ViewPager viewPager;
 	private CatePagerAdapter pagerAdapter;
 	private final List<HashMap<String, Category>> categories = new ArrayList<HashMap<String, Category>>();
@@ -49,13 +51,17 @@ public class MainActivity extends SherlockFragmentActivity {
 		
 		
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
 		initView();
-		}
-		public void initView(){
+		//初始化滑动菜单
+		initSlidingMenu(savedInstanceState);
+	}
+	
+	
+	public void initView(){
 		initActionBar();
 		viewPager=(ViewPager) findViewById(R.id.main_viewPager); 
 	
@@ -178,13 +184,20 @@ public class MainActivity extends SherlockFragmentActivity {
 			holder=new ViewHolder();
 			holder.titlebarRefresh = (Button)headView.findViewById(R.id.titlebar_refresh);
 			holder.loadnewsProgress = (ProgressBar)headView.findViewById(R.id.loadnews_progress);
-			holder.searchButton=(Button) headView.findViewById(R.id.titlebar_search);
-			holder.searchButton.setOnClickListener(new OnClickListener() {			
+//			holder.searchButton=(Button) headView.findViewById(R.id.titlebar_search);
+//			holder.searchButton.setOnClickListener(new OnClickListener() {			
+//				@Override
+//				public void onClick(View v) {
+//					Intent intent=new Intent(MainActivity.this,SearchActivity.class);
+//					startActivity(intent);
+//					
+//				}
+//			});
+			holder.menuButton=(ImageButton) headView.findViewById(R.id.menu_button);
+			holder.menuButton.setOnClickListener(new OnClickListener() {	
 				@Override
 				public void onClick(View v) {
-					Intent intent=new Intent(MainActivity.this,SearchActivity.class);
-					startActivity(intent);
-					
+					toggle();//尽心SlidingMenu的打开与关闭		
 				}
 			});
 			ActionBar actionBar = getSupportActionBar();
@@ -196,9 +209,29 @@ public class MainActivity extends SherlockFragmentActivity {
 			actionBar.setBackgroundDrawable(getResources().getDrawable(R.drawable.title_bg));
 		}
 		
+		private void initSlidingMenu(Bundle savedInstanceState) {
+			// 设置滑动菜单的视图
+			setBehindContentView(R.layout.menu_frame);
+			getFragmentManager().beginTransaction().replace(R.id.menu_frame, new LeftBottomFragment()).commit();		
+			// 实例化滑动菜单对象
+			SlidingMenu sm = getSlidingMenu();
+			// 设置滑动阴影的宽度
+			sm.setShadowWidthRes(R.dimen.shadow_width);
+			// 设置滑动阴影的图像资源
+			sm.setShadowDrawable(R.drawable.shadow);
+			// 设置滑动菜单视图的宽度
+			sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+			// 设置渐入渐出效果的值
+			sm.setFadeDegree(0.35f);
+			// 设置触摸屏幕的模式
+			sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);			
+		}
+		
+		
 		public class ViewHolder{
 			public  Button titlebarRefresh;
 			public ProgressBar loadnewsProgress;
+			private ImageButton menuButton;
 			private Button searchButton;
 		}
 		

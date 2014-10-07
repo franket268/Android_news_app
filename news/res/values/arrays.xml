@@ -7,4 +7,12 @@
         <item>4|军事</item>
         <item>5|体育</item>
     </string-array>
+    
+    <string-array name="arrays_commom">
+        <item >搜索</item>
+    </string-array>
+    
+   <string-array name="arrays_setting">
+        <item >选项</item>  
+    </string-array>
 </resources>
