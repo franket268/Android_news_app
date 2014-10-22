@@ -149,9 +149,9 @@ public class NewsManager {
 		String url = "http://54.187.183.108:8080/web/postComment";
 		List<Parameter> params = new ArrayList<Parameter>();
 		int retCode=-1;
-		params.add(new Parameter("nid","11"));
+		params.add(new Parameter("nid",String.valueOf(nid)));
 		params.add(new Parameter("region",region));
-		params.add(new Parameter("content", "haha"));
+		params.add(new Parameter("content",replyContent));
 		try
 		{
 			String retStr = syncHttp.httpPost(url, params);

@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,12 +21,10 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.ViewFlipper;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.example.adapter.DetailPagerAdapter;
-import com.example.custom.CustomTextView;
 import com.example.news.R;
 import com.example.service.NewsManager;
 
@@ -64,6 +63,7 @@ public class NewsDetailsActivity extends SherlockFragmentActivity implements OnC
                     Toast.makeText(NewsDetailsActivity.this, "发表失败", Toast.LENGTH_SHORT).show();  
                     break;  
                 case POST_COMMENT_SUCCESS:  
+                	Log.d("tag1","hahah"+msg.arg1);
                     Toast.makeText(NewsDetailsActivity.this, "发表成功", Toast.LENGTH_SHORT).show();  
                     break;  
                 default:  
